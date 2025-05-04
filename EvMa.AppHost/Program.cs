@@ -11,4 +11,6 @@ builder.AddProject<Projects.EvMa_Web>("webfrontend")
     .WithReference(apiService)
     .WaitFor(apiService);
 
+builder.AddProject<Projects.EvMa_CatalogService>("evma-catalogservice");
+
 builder.Build().Run();
