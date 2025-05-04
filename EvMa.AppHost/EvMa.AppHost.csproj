@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EvMa.ApiService\EvMa.ApiService.csproj" />
+    <ProjectReference Include="..\EvMa.CatalogService\EvMa.CatalogService.csproj" />
     <ProjectReference Include="..\EvMa.Web\EvMa.Web.csproj" />
   </ItemGroup>
 

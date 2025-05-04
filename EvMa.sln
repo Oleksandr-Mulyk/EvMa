@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvMa.Web", "EvMa.Web\EvMa.W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvMa.Tests", "EvMa.Tests\EvMa.Tests.csproj", "{CE9D6396-FCA9-C93E-AF75-DB79F4077870}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvMa.CatalogService", "EvMa.CatalogService\EvMa.CatalogService.csproj", "{E350E7EC-1D0A-47EF-5424-9C005BC8BBE3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +40,10 @@ Global
 		{CE9D6396-FCA9-C93E-AF75-DB79F4077870}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE9D6396-FCA9-C93E-AF75-DB79F4077870}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE9D6396-FCA9-C93E-AF75-DB79F4077870}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E350E7EC-1D0A-47EF-5424-9C005BC8BBE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E350E7EC-1D0A-47EF-5424-9C005BC8BBE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E350E7EC-1D0A-47EF-5424-9C005BC8BBE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E350E7EC-1D0A-47EF-5424-9C005BC8BBE3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
