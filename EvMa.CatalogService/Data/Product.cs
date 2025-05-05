@@ -15,7 +15,26 @@ namespace EvMa.CatalogService.Data
 
         public decimal Weight { get; set; } = 0m;
 
-        public (decimal Length, decimal Width, decimal Height) Dimensions { get; set; } = (0m, 0m, 0m);
+        [Column("Length")]
+        private decimal _length = 0m;
+
+        [Column("Width")]
+        private decimal _width = 0m;
+
+        [Column("Height")]
+        private decimal _height = 0m;
+
+        [NotMapped]
+        public (decimal Length, decimal Width, decimal Height) Dimensions
+        {
+            get => (_length, _width, _height);
+            set
+            {
+                _length = value.Length;
+                _width = value.Width;
+                _height = value.Height;
+            }
+        }
 
         public decimal RegularPrice { get; set; } = 0m;
 
