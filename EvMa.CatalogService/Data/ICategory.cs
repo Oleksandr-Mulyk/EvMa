@@ -20,6 +20,6 @@
 
         public IList<IProduct> Products { get; set; }
 
-        public IList<IImage> Images { get; set; }
+        public IList<IImage>? Images { get; set; }
     }
 }

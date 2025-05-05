@@ -1,4 +1,6 @@
-﻿namespace EvMa.CatalogService.Data
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace EvMa.CatalogService.Data
 {
     public class Category : ICategory
     {
@@ -8,8 +10,10 @@
 
         public string Description { get; set; } = string.Empty;
 
+        [Column("ParentCategory")]
         private Category? _parentCategory;
 
+        [NotMapped]
         public ICategory? ParentCategory
         {
             get => _parentCategory;
@@ -23,8 +27,10 @@
             }
         }
 
+        [Column("ChildCategories")]
         private IList<Category>? _childCategories;
 
+        [NotMapped]
         public IList<ICategory>? ChildCategories
         {
             get => _childCategories?.Cast<ICategory>().ToList();
@@ -50,14 +56,24 @@
 
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-        private IList<Product> _products;
+        [Column("Products")]
+        private IList<Product> _products = [];
 
+        [NotMapped]
         public IList<IProduct> Products
         {
             get => (IList<IProduct>)_products;
             set => value.Cast<Product>().ToList();
         }
 
-        public IList<IImage> Images { get; set; } = [];
+        [Column("Images")]
+        private IList<Image>? _images = [];
+
+        [NotMapped]
+        public IList<IImage>? Images
+        {
+            get => (IList<IImage>?)_images;
+            set => _images = value?.Cast<Image>().ToList();
+        }
     }
 }
