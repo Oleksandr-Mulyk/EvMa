@@ -12,7 +12,7 @@ namespace EvMa.CatalogService.Data
         private IList<Attribute> _attributes = [];
 
         [NotMapped]
-        IList<IAttribute> IAttributeSet.Attributes
+        public IList<IAttribute> Attributes
         {
             get => (IList<IAttribute>)_attributes;
             set => _attributes = [.. value.Cast<Attribute>()];
