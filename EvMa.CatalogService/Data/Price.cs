@@ -4,6 +4,14 @@
     {
         public Guid PriceId { get; set; } = Guid.NewGuid();
 
+        private Product _product { get; set; } = new Product();
+
+        public IProduct Product
+        {
+            get => _product;
+            set => _product = (Product)value;
+        }
+
         public decimal Value { get; set; }
 
         public decimal? MinQuantity { get; set; }
