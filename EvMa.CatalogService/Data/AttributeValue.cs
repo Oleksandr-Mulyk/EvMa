@@ -12,7 +12,13 @@
             set => _attribute = (Attribute)value;
         }
 
-        public object Product { get; set; } = new object();
+        private Product _product { get; set; } = new Product();
+
+        public IProduct Product
+        {
+            get => _product;
+            set => _product = (Product)value;
+        }
 
         public string Value { get; set; } = string.Empty;
     }

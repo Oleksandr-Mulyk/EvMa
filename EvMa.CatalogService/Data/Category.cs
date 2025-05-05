@@ -50,7 +50,13 @@
 
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-        public IList<object> Products { get; set; } = [];
+        private IList<Product> _products;
+
+        public IList<IProduct> Products
+        {
+            get => (IList<IProduct>)_products;
+            set => value.Cast<Product>().ToList();
+        }
 
         public IList<IImage> Images { get; set; } = [];
     }

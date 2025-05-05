@@ -4,6 +4,8 @@
     {
         public Guid PriceId { get; set; }
 
+        public IProduct Product { get; set; }
+
         public decimal Value { get; set; }
 
         public decimal? MinQuantity { get; set; }

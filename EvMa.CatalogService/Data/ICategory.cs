@@ -18,7 +18,7 @@
 
         public DateTime UpdatedAt { get; set; }
 
-        public IList<object> Products { get; set; }
+        public IList<IProduct> Products { get; set; }
 
         public IList<IImage> Images { get; set; }
     }

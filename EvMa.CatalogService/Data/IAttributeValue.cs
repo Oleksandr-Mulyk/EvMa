@@ -6,7 +6,7 @@
 
         public IAttribute Attribute { get; set; }
 
-        public object Product { get; set; }
+        public IProduct Product { get; set; }
 
         public string Value { get; set; }
     }
