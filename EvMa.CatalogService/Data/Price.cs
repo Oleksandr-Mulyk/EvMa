@@ -1,11 +1,15 @@
-﻿namespace EvMa.CatalogService.Data
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace EvMa.CatalogService.Data
 {
     public class Price : IPrice
     {
         public Guid PriceId { get; set; } = Guid.NewGuid();
 
+        [Column("Product")]
         private Product _product { get; set; } = new Product();
 
+        [NotMapped]
         public IProduct Product
         {
             get => _product;
