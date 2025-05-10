@@ -16,10 +16,13 @@ namespace EvMa.CatalogService.Data
             set => _product = (Product)value;
         }
 
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Value { get; set; }
 
+        [Column(TypeName = "decimal(18,2)")]
         public decimal? MinQuantity { get; set; }
 
+        [Column(TypeName = "decimal(18,2)")]
         public decimal? MaxQuantity { get; set; }
 
         public DateTime? StartAt { get; set; }

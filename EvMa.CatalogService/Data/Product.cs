@@ -13,15 +13,16 @@ namespace EvMa.CatalogService.Data
 
         public string Description { get; set; } = string.Empty;
 
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Weight { get; set; } = 0m;
 
-        [Column("Length")]
+        [Column("Length", TypeName = "decimal(18,2)")]
         private decimal _length = 0m;
 
-        [Column("Width")]
+        [Column("Width", TypeName = "decimal(18,2)")]
         private decimal _width = 0m;
 
-        [Column("Height")]
+        [Column("Height", TypeName = "decimal(18,2)")]
         private decimal _height = 0m;
 
         [NotMapped]
@@ -36,6 +37,7 @@ namespace EvMa.CatalogService.Data
             }
         }
 
+        [Column(TypeName = "decimal(18,2)")]
         public decimal RegularPrice { get; set; } = 0m;
 
         [Column("Prices")]
@@ -48,6 +50,7 @@ namespace EvMa.CatalogService.Data
             set => _prices = value?.Cast<Price>().ToList();
         }
 
+        [Column(TypeName = "decimal(18,2)")]
         public decimal StockQuantity { get; set; }
 
         [Column("AttributeSet")]
