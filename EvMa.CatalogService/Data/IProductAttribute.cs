@@ -1,6 +1,6 @@
 ﻿namespace EvMa.CatalogService.Data
 {
-    public interface IAttribute
+    public interface IProductAttribute
     {
         public Guid Id { get; set; }
 

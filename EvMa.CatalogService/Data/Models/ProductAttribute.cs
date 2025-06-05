@@ -1,6 +1,6 @@
-﻿namespace EvMa.CatalogService.Data
+﻿namespace EvMa.CatalogService.Data.Models
 {
-    public class Attribute : IAttribute
+    public class ProductAttribute : IProductAttribute
     {
         public Guid Id { get; set; } = Guid.NewGuid();
 

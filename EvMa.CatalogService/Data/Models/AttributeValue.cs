@@ -1,0 +1,12 @@
+﻿namespace EvMa.CatalogService.Data.Models
+{
+    public class AttributeValue<TProductAttribute> : IAttributeValue<TProductAttribute>
+        where TProductAttribute : IProductAttribute
+    {
+        public Guid Id { get; set; } = Guid.NewGuid();
+
+        public string Value { get; set; } = string.Empty;
+
+        public TProductAttribute Attribute { get; set; }
+    }
+}

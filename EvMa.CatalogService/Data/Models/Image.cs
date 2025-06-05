@@ -1,5 +1,4 @@
-﻿
-namespace EvMa.CatalogService.Data
+﻿namespace EvMa.CatalogService.Data.Models
 {
     public class Image : IImage
     {
