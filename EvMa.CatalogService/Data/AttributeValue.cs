@@ -4,10 +4,10 @@ namespace EvMa.CatalogService.Data
 {
     public class AttributeValue : IAttributeValue
     {
-        public Guid AttributeValueId { get; set; } = Guid.NewGuid();
+        public Guid Id { get; set; } = Guid.NewGuid();
 
         [Column("Attribute")]
-        private Attribute _attribute { get; set; } = new Attribute();
+        private Attribute _attribute { get; set; } = new();
 
         [NotMapped]
         public IAttribute Attribute
@@ -17,7 +17,7 @@ namespace EvMa.CatalogService.Data
         }
 
         [Column("Product")]
-        private Product _product { get; set; } = new Product();
+        private Product _product { get; set; } = new();
 
         [NotMapped]
         public IProduct Product

@@ -2,7 +2,7 @@
 {
     public interface IAttributeValue
     {
-        public Guid AttributeValueId { get; set; }
+        public Guid Id { get; set; }
 
         public IAttribute Attribute { get; set; }
 
