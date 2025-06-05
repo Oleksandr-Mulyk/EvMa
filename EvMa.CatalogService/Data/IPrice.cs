@@ -2,9 +2,7 @@
 {
     public interface IPrice
     {
-        public Guid PriceId { get; set; }
-
-        public IProduct Product { get; set; }
+        public Guid Id { get; set; }
 
         public decimal Value { get; set; }
 

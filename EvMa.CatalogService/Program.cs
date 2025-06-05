@@ -1,8 +1,15 @@
+using EvMa.CatalogService.Data;
 using EvMa.CatalogService.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
+
+builder.Services.AddDbContext<ApplicationContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("catalogdb"));
+});
 
 // Add services to the container.
 builder.Services.AddGrpc();

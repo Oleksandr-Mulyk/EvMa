@@ -4,6 +4,10 @@ var cache = builder.AddRedis("cache");
 
 var apiService = builder.AddProject<Projects.EvMa_ApiService>("apiservice");
 
+var sql = builder.AddSqlServer("sqlserver");
+
+var catalogDB = sql.AddDatabase("catalogdb");
+
 builder.AddProject<Projects.EvMa_Web>("webfrontend")
     .WithExternalHttpEndpoints()
     .WithReference(cache)
@@ -11,6 +15,8 @@ builder.AddProject<Projects.EvMa_Web>("webfrontend")
     .WithReference(apiService)
     .WaitFor(apiService);
 
-builder.AddProject<Projects.EvMa_CatalogService>("evma-catalogservice");
+builder.AddProject<Projects.EvMa_CatalogService>("evma-catalogservice")
+    .WithReference(catalogDB)
+    .WaitFor(catalogDB);
 
 builder.Build().Run();

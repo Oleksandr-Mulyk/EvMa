@@ -1,11 +1,11 @@
 ﻿namespace EvMa.CatalogService.Data
 {
-    public interface IAttributeSet
+    public interface IAttributeSet<TProductAttribute> where TProductAttribute : IProductAttribute
     {
-        public Guid AttributeSetId { get; set; }
+        public Guid Id { get; set; }
 
         public string Name { get; set; }
 
-        public IList<IAttribute> Attributes { get; set; }
+        public IList<TProductAttribute> Attributes { get; set; }
     }
 }
