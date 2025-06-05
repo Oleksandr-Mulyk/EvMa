@@ -3,7 +3,7 @@ namespace EvMa.CatalogService.Data
 {
     public class Image : IImage
     {
-        public Guid ImageId { get; set; } = Guid.NewGuid();
+        public Guid Id { get; set; } = Guid.NewGuid();
 
         public string Url { get; set; } = string.Empty;
 

@@ -5,7 +5,7 @@ namespace EvMa.CatalogService.Data
 {
     public class Product : IProduct
     {
-        public Guid ProductId { get; set; }
+        public Guid Id { get; set; }
 
         public string Sku { get; set; }
 

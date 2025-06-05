@@ -2,7 +2,7 @@
 {
     public interface IPrice
     {
-        public Guid PriceId { get; set; }
+        public Guid Id { get; set; }
 
         public IProduct Product { get; set; }
 

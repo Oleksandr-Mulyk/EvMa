@@ -2,7 +2,7 @@
 {
     public interface IImage
     {
-        public Guid ImageId { get; set; }
+        public Guid Id { get; set; }
 
         public string Url { get; set; }
 

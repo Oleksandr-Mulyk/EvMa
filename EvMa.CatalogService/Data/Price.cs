@@ -4,7 +4,7 @@ namespace EvMa.CatalogService.Data
 {
     public class Price : IPrice
     {
-        public Guid PriceId { get; set; } = Guid.NewGuid();
+        public Guid Id { get; set; } = Guid.NewGuid();
 
         [Column("Product")]
         private Product _product { get; set; } = new Product();

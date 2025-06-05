@@ -2,7 +2,7 @@
 {
     public class Attribute : IAttribute
     {
-        public Guid AttributeId { get; set; } = Guid.NewGuid();
+        public Guid Id { get; set; } = Guid.NewGuid();
 
         public string Name { get; set; } = string.Empty;
 
