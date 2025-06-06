@@ -1,0 +1,116 @@
+syntax = "proto3";
+
+option csharp_namespace = "EvMa.CatalogService.Protos";
+
+package product;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+service ProductService {
+	rpc GetById(IdRequest) returns (ProductResponse);
+	rpc GetBySku(SkuRequest) returns (ProductResponse);
+	rpc GetAll(google.protobuf.Empty) returns (ProductListResponse);
+	rpc Add(AddProductRequest) returns (ProductResponse);
+	rpc Update(UpdateProductRequest) returns (ProductResponse);
+	rpc DeleteById(IdRequest) returns (google.protobuf.Empty);
+}
+
+message IdRequest {
+	string id = 1;
+}
+
+message SkuRequest {
+	string sku = 1;
+}
+
+message AddProductRequest {
+	string sku = 2;
+	string name = 3;
+	string description = 4;
+	double wight = 5;
+	Dimensions dimensions = 6;
+	double regular_price = 7;
+	repeated Price prices = 8;
+	double stock_quantity = 9;
+	AttributeSet attribute_set = 10;
+	repeated AttributeValue attribute_values = 11;
+	repeated Image images = 12;
+	repeated string tags = 13;
+	bool is_active = 14;
+}
+
+message UpdateProductRequest {
+	string id = 1;
+	string sku = 2;
+	string name = 3;
+	string description = 4;
+	double wight = 5;
+	Dimensions dimensions = 6;
+	double regular_price = 7;
+	repeated Price prices = 8;
+	double stock_quantity = 9;
+	AttributeSet attribute_set = 10;
+	repeated AttributeValue attribute_values = 11;
+	repeated Image images = 12;
+	repeated string tags = 13;
+	bool is_active = 14;
+}
+
+message ProductResponse {
+	string id = 1;
+	string sku = 2;
+	string name = 3;
+	string description = 4;
+	double wight = 5;
+	Dimensions dimensions = 6;
+	double regular_price = 7;
+	repeated Price prices = 8;
+	double stock_quantity = 9;
+	AttributeSet attribute_set = 10;
+	repeated AttributeValue attribute_values = 11;
+	repeated Image images = 12;
+	repeated string tags = 13;
+	bool is_active = 14;
+}
+
+message Dimensions {
+	double length = 1;
+	double width = 2;
+	double height = 3;
+}
+
+message Price {
+	string id = 1;
+	string value = 2;
+	double min_quantity = 3;
+	double max_quantity = 4;
+	google.protobuf.Timestamp start_at = 5;
+	google.protobuf.Timestamp end_at = 6;
+}
+
+message AttributeSet {
+	string id = 1;
+	string name = 2;
+	repeated ProductAttribute attributes = 3;
+}
+
+message ProductAttribute {
+	string id = 1;
+	string name = 2;
+	repeated string type = 3;
+}
+
+message AttributeValue {
+	string id = 1;
+	string value = 2;
+	repeated string values = 3;
+	ProductAttribute attribute = 4;
+}
+
+message Image {
+	string id = 1;
+	string url = 2;
+	string alt_text = 3;
+	int32 order = 4;
+}
