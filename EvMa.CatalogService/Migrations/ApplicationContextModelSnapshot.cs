@@ -22,37 +22,37 @@ namespace EvMa.CatalogService.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("AppAttributeSetProductAttribute", b =>
+            modelBuilder.Entity("AttributeSetProductAttribute", b =>
                 {
-                    b.Property<Guid>("AppAttributeSetId")
+                    b.Property<Guid>("AttributeSetId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("AttributesId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("AppAttributeSetId", "AttributesId");
+                    b.HasKey("AttributeSetId", "AttributesId");
 
                     b.HasIndex("AttributesId");
 
-                    b.ToTable("AppAttributeSetProductAttribute");
+                    b.ToTable("AttributeSetProductAttribute");
                 });
 
-            modelBuilder.Entity("AppCategoryAppProduct", b =>
+            modelBuilder.Entity("CategoryProduct", b =>
                 {
-                    b.Property<Guid>("AppCategoryId")
+                    b.Property<Guid>("CategoryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ProductsId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("AppCategoryId", "ProductsId");
+                    b.HasKey("CategoryId", "ProductsId");
 
                     b.HasIndex("ProductsId");
 
-                    b.ToTable("AppCategoryAppProduct");
+                    b.ToTable("CategoryProduct");
                 });
 
-            modelBuilder.Entity("EvMa.CatalogService.Data.ApplicationModels.AppAttributeSet", b =>
+            modelBuilder.Entity("EvMa.CatalogService.Data.Models.AttributeSet", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -67,16 +67,16 @@ namespace EvMa.CatalogService.Migrations
                     b.ToTable("AttributeSets");
                 });
 
-            modelBuilder.Entity("EvMa.CatalogService.Data.ApplicationModels.AppAttributeValue", b =>
+            modelBuilder.Entity("EvMa.CatalogService.Data.Models.AttributeValue", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("AppProductId")
+                    b.Property<Guid>("AttributeId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AttributeId")
+                    b.Property<Guid?>("ProductId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Value")
@@ -85,21 +85,18 @@ namespace EvMa.CatalogService.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppProductId");
-
                     b.HasIndex("AttributeId");
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("AttributeValues");
                 });
 
-            modelBuilder.Entity("EvMa.CatalogService.Data.ApplicationModels.AppCategory", b =>
+            modelBuilder.Entity("EvMa.CatalogService.Data.Models.Category", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.PrimitiveCollection<string>("ChildCategoryIds")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -130,7 +127,70 @@ namespace EvMa.CatalogService.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("EvMa.CatalogService.Data.ApplicationModels.AppProduct", b =>
+            modelBuilder.Entity("EvMa.CatalogService.Data.Models.Image", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AltText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Images");
+                });
+
+            modelBuilder.Entity("EvMa.CatalogService.Data.Models.Price", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("EndAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal?>("MaxQuantity")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("MinQuantity")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("StartAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Value")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Prices");
+                });
+
+            modelBuilder.Entity("EvMa.CatalogService.Data.Models.Product", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -182,69 +242,6 @@ namespace EvMa.CatalogService.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("EvMa.CatalogService.Data.Models.Image", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("AltText")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("AppCategoryId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("AppProductId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Order")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppCategoryId");
-
-                    b.HasIndex("AppProductId");
-
-                    b.ToTable("Images");
-                });
-
-            modelBuilder.Entity("EvMa.CatalogService.Data.Models.Price", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("AppProductId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("EndAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal?>("MaxQuantity")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("MinQuantity")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime?>("StartAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("Value")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppProductId");
-
-                    b.ToTable("Prices");
-                });
-
             modelBuilder.Entity("EvMa.CatalogService.Data.Models.ProductAttribute", b =>
                 {
                     b.Property<Guid>("Id")
@@ -264,11 +261,11 @@ namespace EvMa.CatalogService.Migrations
                     b.ToTable("Attributes");
                 });
 
-            modelBuilder.Entity("AppAttributeSetProductAttribute", b =>
+            modelBuilder.Entity("AttributeSetProductAttribute", b =>
                 {
-                    b.HasOne("EvMa.CatalogService.Data.ApplicationModels.AppAttributeSet", null)
+                    b.HasOne("EvMa.CatalogService.Data.Models.AttributeSet", null)
                         .WithMany()
-                        .HasForeignKey("AppAttributeSetId")
+                        .HasForeignKey("AttributeSetId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -279,39 +276,57 @@ namespace EvMa.CatalogService.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("AppCategoryAppProduct", b =>
+            modelBuilder.Entity("CategoryProduct", b =>
                 {
-                    b.HasOne("EvMa.CatalogService.Data.ApplicationModels.AppCategory", null)
+                    b.HasOne("EvMa.CatalogService.Data.Models.Category", null)
                         .WithMany()
-                        .HasForeignKey("AppCategoryId")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EvMa.CatalogService.Data.ApplicationModels.AppProduct", null)
+                    b.HasOne("EvMa.CatalogService.Data.Models.Product", null)
                         .WithMany()
                         .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("EvMa.CatalogService.Data.ApplicationModels.AppAttributeValue", b =>
+            modelBuilder.Entity("EvMa.CatalogService.Data.Models.AttributeValue", b =>
                 {
-                    b.HasOne("EvMa.CatalogService.Data.ApplicationModels.AppProduct", null)
-                        .WithMany("AttributeValues")
-                        .HasForeignKey("AppProductId");
-
                     b.HasOne("EvMa.CatalogService.Data.Models.ProductAttribute", "Attribute")
                         .WithMany()
                         .HasForeignKey("AttributeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("EvMa.CatalogService.Data.Models.Product", null)
+                        .WithMany("AttributeValues")
+                        .HasForeignKey("ProductId");
+
                     b.Navigation("Attribute");
                 });
 
-            modelBuilder.Entity("EvMa.CatalogService.Data.ApplicationModels.AppProduct", b =>
+            modelBuilder.Entity("EvMa.CatalogService.Data.Models.Image", b =>
                 {
-                    b.HasOne("EvMa.CatalogService.Data.ApplicationModels.AppAttributeSet", "AttributeSet")
+                    b.HasOne("EvMa.CatalogService.Data.Models.Category", null)
+                        .WithMany("Images")
+                        .HasForeignKey("CategoryId");
+
+                    b.HasOne("EvMa.CatalogService.Data.Models.Product", null)
+                        .WithMany("Images")
+                        .HasForeignKey("ProductId");
+                });
+
+            modelBuilder.Entity("EvMa.CatalogService.Data.Models.Price", b =>
+                {
+                    b.HasOne("EvMa.CatalogService.Data.Models.Product", null)
+                        .WithMany("Prices")
+                        .HasForeignKey("ProductId");
+                });
+
+            modelBuilder.Entity("EvMa.CatalogService.Data.Models.Product", b =>
+                {
+                    b.HasOne("EvMa.CatalogService.Data.Models.AttributeSet", "AttributeSet")
                         .WithMany()
                         .HasForeignKey("AttributeSetId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -320,30 +335,12 @@ namespace EvMa.CatalogService.Migrations
                     b.Navigation("AttributeSet");
                 });
 
-            modelBuilder.Entity("EvMa.CatalogService.Data.Models.Image", b =>
-                {
-                    b.HasOne("EvMa.CatalogService.Data.ApplicationModels.AppCategory", null)
-                        .WithMany("Images")
-                        .HasForeignKey("AppCategoryId");
-
-                    b.HasOne("EvMa.CatalogService.Data.ApplicationModels.AppProduct", null)
-                        .WithMany("Images")
-                        .HasForeignKey("AppProductId");
-                });
-
-            modelBuilder.Entity("EvMa.CatalogService.Data.Models.Price", b =>
-                {
-                    b.HasOne("EvMa.CatalogService.Data.ApplicationModels.AppProduct", null)
-                        .WithMany("Prices")
-                        .HasForeignKey("AppProductId");
-                });
-
-            modelBuilder.Entity("EvMa.CatalogService.Data.ApplicationModels.AppCategory", b =>
+            modelBuilder.Entity("EvMa.CatalogService.Data.Models.Category", b =>
                 {
                     b.Navigation("Images");
                 });
 
-            modelBuilder.Entity("EvMa.CatalogService.Data.ApplicationModels.AppProduct", b =>
+            modelBuilder.Entity("EvMa.CatalogService.Data.Models.Product", b =>
                 {
                     b.Navigation("AttributeValues");
 
