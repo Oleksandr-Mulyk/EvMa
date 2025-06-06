@@ -44,7 +44,6 @@ namespace EvMa.CatalogService.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ParentCategoryId = table.Column<int>(type: "int", nullable: false),
-                    ChildCategoryIds = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()")
@@ -55,23 +54,23 @@ namespace EvMa.CatalogService.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AppAttributeSetProductAttribute",
+                name: "AttributeSetProductAttribute",
                 columns: table => new
                 {
-                    AppAttributeSetId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AttributeSetId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     AttributesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AppAttributeSetProductAttribute", x => new { x.AppAttributeSetId, x.AttributesId });
+                    table.PrimaryKey("PK_AttributeSetProductAttribute", x => new { x.AttributeSetId, x.AttributesId });
                     table.ForeignKey(
-                        name: "FK_AppAttributeSetProductAttribute_AttributeSets_AppAttributeSetId",
-                        column: x => x.AppAttributeSetId,
+                        name: "FK_AttributeSetProductAttribute_AttributeSets_AttributeSetId",
+                        column: x => x.AttributeSetId,
                         principalTable: "AttributeSets",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AppAttributeSetProductAttribute_Attributes_AttributesId",
+                        name: "FK_AttributeSetProductAttribute_Attributes_AttributesId",
                         column: x => x.AttributesId,
                         principalTable: "Attributes",
                         principalColumn: "Id",
@@ -108,35 +107,11 @@ namespace EvMa.CatalogService.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AppCategoryAppProduct",
-                columns: table => new
-                {
-                    AppCategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProductsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AppCategoryAppProduct", x => new { x.AppCategoryId, x.ProductsId });
-                    table.ForeignKey(
-                        name: "FK_AppCategoryAppProduct_Categories_AppCategoryId",
-                        column: x => x.AppCategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AppCategoryAppProduct_Products_ProductsId",
-                        column: x => x.ProductsId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AttributeValues",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AppProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AttributeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
@@ -150,10 +125,34 @@ namespace EvMa.CatalogService.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AttributeValues_Products_AppProductId",
-                        column: x => x.AppProductId,
+                        name: "FK_AttributeValues_Products_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CategoryProduct",
+                columns: table => new
+                {
+                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CategoryProduct", x => new { x.CategoryId, x.ProductsId });
+                    table.ForeignKey(
+                        name: "FK_CategoryProduct_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CategoryProduct_Products_ProductsId",
+                        column: x => x.ProductsId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -164,20 +163,20 @@ namespace EvMa.CatalogService.Migrations
                     Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AltText = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Order = table.Column<int>(type: "int", nullable: false),
-                    AppCategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    AppProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Images", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Images_Categories_AppCategoryId",
-                        column: x => x.AppCategoryId,
+                        name: "FK_Images_Categories_CategoryId",
+                        column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Images_Products_AppProductId",
-                        column: x => x.AppProductId,
+                        name: "FK_Images_Products_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id");
                 });
@@ -192,32 +191,22 @@ namespace EvMa.CatalogService.Migrations
                     MaxQuantity = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     StartAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     EndAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    AppProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Prices", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Prices_Products_AppProductId",
-                        column: x => x.AppProductId,
+                        name: "FK_Prices_Products_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AppAttributeSetProductAttribute_AttributesId",
-                table: "AppAttributeSetProductAttribute",
+                name: "IX_AttributeSetProductAttribute_AttributesId",
+                table: "AttributeSetProductAttribute",
                 column: "AttributesId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AppCategoryAppProduct_ProductsId",
-                table: "AppCategoryAppProduct",
-                column: "ProductsId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AttributeValues_AppProductId",
-                table: "AttributeValues",
-                column: "AppProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AttributeValues_AttributeId",
@@ -225,19 +214,29 @@ namespace EvMa.CatalogService.Migrations
                 column: "AttributeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Images_AppCategoryId",
-                table: "Images",
-                column: "AppCategoryId");
+                name: "IX_AttributeValues_ProductId",
+                table: "AttributeValues",
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Images_AppProductId",
-                table: "Images",
-                column: "AppProductId");
+                name: "IX_CategoryProduct_ProductsId",
+                table: "CategoryProduct",
+                column: "ProductsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Prices_AppProductId",
+                name: "IX_Images_CategoryId",
+                table: "Images",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Images_ProductId",
+                table: "Images",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Prices_ProductId",
                 table: "Prices",
-                column: "AppProductId");
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_AttributeSetId",
@@ -249,13 +248,13 @@ namespace EvMa.CatalogService.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AppAttributeSetProductAttribute");
-
-            migrationBuilder.DropTable(
-                name: "AppCategoryAppProduct");
+                name: "AttributeSetProductAttribute");
 
             migrationBuilder.DropTable(
                 name: "AttributeValues");
+
+            migrationBuilder.DropTable(
+                name: "CategoryProduct");
 
             migrationBuilder.DropTable(
                 name: "Images");
