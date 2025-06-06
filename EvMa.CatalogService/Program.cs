@@ -9,6 +9,7 @@ builder.AddServiceDefaults();
 
 builder.Services.AddTransient<IProductRepository, ProductRepository>();
 builder.Services.AddTransient<IRepository<IAttributeSet>, AttributeSetRepository>();
+builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
 
 builder.Services.AddDbContext<ApplicationContext>(options =>
 {
