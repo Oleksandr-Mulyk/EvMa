@@ -1,10 +1,8 @@
-﻿using System.Linq.Expressions;
-
-namespace EvMa.CatalogService.Data.Repositories
+﻿namespace EvMa.CatalogService.Data.Repositories
 {
     public interface IRepository<T, TId> where T : class
     {
-        public Task<T?> GetByIdAsync(TId id);
+        public Task<T> GetByIdAsync(TId id);
 
         public IQueryable<T> GetAll();
 

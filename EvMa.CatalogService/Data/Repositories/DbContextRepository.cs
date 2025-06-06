@@ -5,7 +5,7 @@ namespace EvMa.CatalogService.Data.Repositories
     public class DbContextRepository<T, TClass, TId>(DbSet<TClass> dbSet, ApplicationContext dbContext)
         : IRepository<T, TId> where T : class where TClass : class, T
     {
-        public virtual async Task<T?> GetByIdAsync(TId id) =>
+        public virtual async Task<T> GetByIdAsync(TId id) =>
             await dbSet.FindAsync(id) ?? throw new Exception(NotFoundMessage);
 
         public virtual IQueryable<T> GetAll() => dbSet.AsQueryable().Select(item => item as T);
