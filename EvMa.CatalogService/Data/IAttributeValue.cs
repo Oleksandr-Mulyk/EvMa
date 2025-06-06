@@ -8,4 +8,6 @@
 
         public TProductAttribute Attribute { get; set; }
     }
+
+    public interface IAttributeValue : IAttributeValue<IProductAttribute> { }
 }
