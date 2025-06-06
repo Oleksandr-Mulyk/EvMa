@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 
 builder.Services.AddTransient<IProductRepository, ProductRepository>();
+builder.Services.AddTransient<IRepository<IAttributeSet>, AttributeSetRepository>();
 
 builder.Services.AddDbContext<ApplicationContext>(options =>
 {
