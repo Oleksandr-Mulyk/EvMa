@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace EvMa.CatalogService.Data.Models
+﻿namespace EvMa.CatalogService.Data.Models
 {
     public class AttributeSet<TProductAttribute> : IAttributeSet<TProductAttribute>
         where TProductAttribute : IProductAttribute
@@ -10,5 +8,10 @@ namespace EvMa.CatalogService.Data.Models
         public string Name { get; set; } = string.Empty;
 
         public IList<TProductAttribute> Attributes{ get; set; }
+    }
+
+    public class AttributeSet : AttributeSet<ProductAttribute>, IAttributeSet
+    {
+        IList<IProductAttribute> IAttributeSet<IProductAttribute>.Attributes { get; set; }
     }
 }

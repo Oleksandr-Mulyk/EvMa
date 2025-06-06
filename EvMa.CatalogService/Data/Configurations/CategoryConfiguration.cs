@@ -1,12 +1,12 @@
-﻿using EvMa.CatalogService.Data.ApplicationModels;
+﻿using EvMa.CatalogService.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EvMa.CatalogService.Data.Configurations
 {
-    public class CategoryConfiguration : IEntityTypeConfiguration<AppCategory>
+    public class CategoryConfiguration : IEntityTypeConfiguration<Category>
     {
-        public void Configure(EntityTypeBuilder<AppCategory> builder)
+        public void Configure(EntityTypeBuilder<Category> builder)
         {
             builder.HasMany(c => c.Products).WithMany();
 

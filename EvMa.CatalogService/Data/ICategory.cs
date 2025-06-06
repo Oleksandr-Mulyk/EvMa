@@ -28,4 +28,7 @@
 
         public IList<TImage>? Images { get; set; }
     }
+
+    public interface ICategory :
+        ICategory<IProduct, IProductAttribute, IAttributeSet, IAttributeValue, IPrice, IImage> { }
 }

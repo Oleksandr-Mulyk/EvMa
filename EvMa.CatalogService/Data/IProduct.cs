@@ -1,9 +1,9 @@
 ﻿namespace EvMa.CatalogService.Data
 {
-    public interface IProduct<TAttribute, TAttributeSet, TAttributeValue, TPrice, TImage>
-        where TAttribute : IProductAttribute
-        where TAttributeSet : IAttributeSet<TAttribute>
-        where TAttributeValue : IAttributeValue<TAttribute>
+    public interface IProduct<TProductAttribute, TAttributeSet, TAttributeValue, TPrice, TImage>
+        where TProductAttribute : IProductAttribute
+        where TAttributeSet : IAttributeSet<TProductAttribute>
+        where TAttributeValue : IAttributeValue<TProductAttribute>
         where TPrice : IPrice
         where TImage : IImage
     {
@@ -35,4 +35,6 @@
 
         public bool IsActive { get; set; }
     }
+
+    public interface IProduct : IProduct<IProductAttribute, IAttributeSet, IAttributeValue, IPrice, IImage> { }
 }

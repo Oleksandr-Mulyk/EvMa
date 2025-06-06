@@ -8,4 +8,6 @@
 
         public IList<TProductAttribute> Attributes { get; set; }
     }
+
+    public interface IAttributeSet : IAttributeSet<IProductAttribute> { }
 }

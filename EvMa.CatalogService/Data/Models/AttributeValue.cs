@@ -9,4 +9,9 @@
 
         public TProductAttribute Attribute { get; set; }
     }
+
+    public class AttributeValue : AttributeValue<ProductAttribute>, IAttributeValue
+    {
+        IProductAttribute IAttributeValue<IProductAttribute>.Attribute { get; set; }
+    }
 }

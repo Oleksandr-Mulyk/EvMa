@@ -62,4 +62,18 @@ namespace EvMa.CatalogService.Data.Models
             return (nameof(_length), nameof(_width), nameof(_height));
         }
     }
+
+    public class Product : Product<ProductAttribute, AttributeSet, AttributeValue, Price, Image>, IProduct
+    {
+        IList<IPrice>? IProduct<IProductAttribute, IAttributeSet, IAttributeValue, IPrice, IImage>.Prices { get; set; }
+
+        IAttributeSet IProduct<IProductAttribute, IAttributeSet, IAttributeValue, IPrice, IImage>.AttributeSet
+        { get; set; }
+
+        IList<IAttributeValue>
+            IProduct<IProductAttribute, IAttributeSet, IAttributeValue, IPrice, IImage>.AttributeValues
+        { get; set; }
+
+        IList<IImage>? IProduct<IProductAttribute, IAttributeSet, IAttributeValue, IPrice, IImage>.Images { get; set; }
+    }
 }
