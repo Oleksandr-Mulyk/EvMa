@@ -1,10 +1,13 @@
 using EvMa.CatalogService.Data;
+using EvMa.CatalogService.Data.Repositories;
 using EvMa.CatalogService.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
+
+builder.Services.AddTransient<IProductRepository, ProductRepository>();
 
 builder.Services.AddDbContext<ApplicationContext>(options =>
 {
