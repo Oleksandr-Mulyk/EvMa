@@ -30,4 +30,6 @@
         public IList<TImage>? Images { get; set; } = [];
 
     }
+
+    public class Category : Category<Product, ProductAttribute, AttributeSet, AttributeValue, Price, Image> { }
 }

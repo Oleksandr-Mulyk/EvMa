@@ -62,4 +62,6 @@ namespace EvMa.CatalogService.Data.Models
             return (nameof(_length), nameof(_width), nameof(_height));
         }
     }
+
+    public class Product : Product<ProductAttribute, AttributeSet, AttributeValue, Price, Image> { }
 }
