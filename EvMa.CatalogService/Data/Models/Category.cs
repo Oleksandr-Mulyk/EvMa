@@ -31,5 +31,12 @@
 
     }
 
-    public class Category : Category<Product, ProductAttribute, AttributeSet, AttributeValue, Price, Image> { }
+    public class Category : Category<Product, ProductAttribute, AttributeSet, AttributeValue, Price, Image>, ICategory
+    {
+        IList<IProduct>
+            ICategory<IProduct, IProductAttribute, IAttributeSet, IAttributeValue, IPrice, IImage>.Products
+        { get; set; }
+        IList<IImage>? ICategory<IProduct, IProductAttribute, IAttributeSet, IAttributeValue, IPrice, IImage>.Images
+        { get; set; }
+    }
 }

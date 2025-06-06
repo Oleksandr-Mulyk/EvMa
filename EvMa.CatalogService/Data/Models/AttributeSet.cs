@@ -10,5 +10,8 @@
         public IList<TProductAttribute> Attributes{ get; set; }
     }
 
-    public class AttributeSet : AttributeSet<ProductAttribute> { }
+    public class AttributeSet : AttributeSet<ProductAttribute>, IAttributeSet
+    {
+        IList<IProductAttribute> IAttributeSet<IProductAttribute>.Attributes { get; set; }
+    }
 }
