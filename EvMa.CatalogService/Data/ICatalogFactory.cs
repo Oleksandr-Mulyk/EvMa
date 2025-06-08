@@ -2,18 +2,50 @@
 {
     public interface ICatalogFactory
     {
-        public IProductAttribute CreateProductAttribute();
+        public IProductAttribute CreateProductAttribute(Guid id, string name, string type);
 
-        public IAttributeSet CreateAttributeSet();
+        public IAttributeSet CreateAttributeSet(Guid id, string name, IList<IProductAttribute> attributes);
 
-        public IAttributeValue CreateAttributeValue();
+        public IAttributeValue CreateAttributeValue(Guid id, string value, IProductAttribute attribute);
 
-        public IPrice CreatePrice();
+        public IPrice CreatePrice(
+            Guid id,
+            decimal value,
+            decimal? minQuantity,
+            decimal? maxQuantity,
+            DateTime startAt,
+            DateTime endAt
+            );
 
-        public IImage CreateImage();
+        public IImage CreateImage(Guid id, string url, string altText, int order);
 
-        public IProduct CreateProduct();
+        public IProduct CreateProduct(
+            Guid id,
+            string sku,
+            string name,
+            string description,
+            decimal weight,
+            (decimal Length, decimal Width, decimal Height) dimensions,
+            decimal regularPrice,
+            IList<IPrice>? prices,
+            decimal stockQuantity,
+            IAttributeSet attributeSet,
+            IList<IAttributeValue> attributeValues,
+            IList<IImage>? images,
+            IList<string>? tags,
+            bool isActive
+            );
 
-        public ICategory CreateCategory();
+        public ICategory CreateCategory(
+            Guid id,
+            string name,
+            string description,
+            int parentCategoryId,
+            bool isActive,
+            DateTime createdAt,
+            DateTime updatedAt,
+            IList<IProduct> products,
+            IList<IImage>? images
+            );
     }
 }
