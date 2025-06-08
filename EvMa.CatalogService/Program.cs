@@ -1,5 +1,5 @@
 using EvMa.CatalogService.Data;
-using EvMa.CatalogService.Data.Repositories;
+using EvMa.CatalogService.Extensions;
 using EvMa.CatalogService.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,10 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
-builder.Services.AddTransient<IProductRepository, ProductRepository>();
-builder.Services.AddTransient<IRepository<IAttributeSet>, AttributeSetRepository>();
-builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
+builder.Services.AddRepositories();
 builder.Services.AddTransient<ICatalogFactory, DbCatalogFactory>();
+builder.Services.AddServiceGrpcModelsToModelsConverters();
 
 builder.Services.AddDbContext<ApplicationContext>(options =>
 {

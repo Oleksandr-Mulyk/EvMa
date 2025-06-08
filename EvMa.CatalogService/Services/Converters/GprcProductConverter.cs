@@ -1,0 +1,36 @@
+﻿using EvMa.CatalogService.Data;
+using EvMa.CatalogService.Protos;
+
+namespace EvMa.CatalogService.Services.Converters
+{
+    public class GprcProductConverter(
+        ICatalogFactory catalogFactory,
+        IGrpcImageConverter grpcImageConverter,
+        IGrpcPriceConverter grpcPriceConverter,
+        IGrpcAttributeSetConverter grpcAttributeSetConverter,
+        IGrpcAttributeValueConverter grpcAttributeValueConverter
+        ) : IGprcProductConverter
+    {
+        public IProduct ToProduct(GrpcProduct product) =>
+            catalogFactory.CreateProduct(
+                Guid.Parse(product.Id),
+                product.Sku,
+                product.Name,
+                product.Description,
+                (decimal)product.Weight,
+                (
+                    Length: (decimal)product.Dimensions.Length,
+                    Width: (decimal)product.Dimensions.Width,
+                    Height: (decimal)product.Dimensions.Height
+                ),
+                (decimal)product.RegularPrice,
+                [.. product.Prices.Select(grpcPriceConverter.ToPrice)],
+                (decimal)product.StockQuantity,
+                grpcAttributeSetConverter.ToAttributeSet(product.AttributeSet),
+                [.. product.AttributeValues.Select(grpcAttributeValueConverter.ToAttributeValue)],
+                [.. product.Images.Select(grpcImageConverter.ToImage)],
+                [.. product.Tags],
+                product.IsActive
+            );
+    }
+}
