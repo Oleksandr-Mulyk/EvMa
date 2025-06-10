@@ -114,8 +114,8 @@ namespace EvMa.CatalogService.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ParentCategoryId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ParentCategoryId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()

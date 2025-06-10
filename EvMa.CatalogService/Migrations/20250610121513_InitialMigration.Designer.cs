@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EvMa.CatalogService.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20250606154813_InitialMigration")]
+    [Migration("20250610121513_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -117,8 +117,8 @@ namespace EvMa.CatalogService.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ParentCategoryId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ParentCategoryId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()

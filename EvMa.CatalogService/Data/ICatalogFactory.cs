@@ -40,7 +40,7 @@
             Guid id,
             string name,
             string description,
-            int parentCategoryId,
+            Guid parentCategoryId,
             bool isActive,
             DateTime createdAt,
             DateTime updatedAt,

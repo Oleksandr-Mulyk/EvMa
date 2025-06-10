@@ -3,11 +3,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EvMa.CatalogService.Data.Repositories
 {
-    public class ProductRepository(DbSet<Product> dbSet, ApplicationContext dbContext) :
-        DbContextRepository<IProduct, Product>(dbSet, dbContext), IProductRepository
+    public class ProductRepository(ApplicationContext dbContext) :
+        DbContextRepository<IProduct, Product>(dbContext), IProductRepository
     {
+        protected override DbSet<Product> DbSet => dbContext.Products;
+
         public virtual async Task<IProduct> GetBySkuAsync(string sku) =>
-            await dbSet.FirstOrDefaultAsync(p => p.Sku == sku) ?? throw new Exception(NotFoundMessage);
+            await DbSet.FirstOrDefaultAsync(p => p.Sku == sku) ?? throw new Exception(NotFoundMessage);
 
         public override IQueryable<IProduct> GetAll() =>
             base.GetAll()

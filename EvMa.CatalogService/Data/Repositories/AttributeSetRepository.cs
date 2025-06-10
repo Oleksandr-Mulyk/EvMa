@@ -3,9 +3,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EvMa.CatalogService.Data.Repositories
 {
-    public class AttributeSetRepository(DbSet<AttributeSet> dbSet, ApplicationContext applicationContext) : 
-        DbContextRepository<IAttributeSet, AttributeSet>(dbSet, applicationContext)
+    public class AttributeSetRepository(ApplicationContext applicationContext) : 
+        DbContextRepository<IAttributeSet, AttributeSet>(applicationContext)
     {
+        protected override DbSet<AttributeSet> DbSet => applicationContext.AttributeSets;
+
         public override IQueryable<IAttributeSet> GetAll() =>
             base.GetAll().Include(aset => aset.Attributes);
     }
