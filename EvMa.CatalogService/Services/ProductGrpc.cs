@@ -30,10 +30,7 @@ namespace EvMa.CatalogService.Services
         {
             List<IProduct> products = await productRepository.GetAll().ToListAsync();
 
-            return new ProductListResponse
-            {
-                Products = { products.Select(p => p.ToGrpcProduct()) }
-            };
+            return new ProductListResponse { Products = { products.Select(p => p.ToGrpcProduct()) } };
         }
 
         public override async Task<GrpcProduct> Add(GrpcProduct grpcProduct, ServerCallContext context)
