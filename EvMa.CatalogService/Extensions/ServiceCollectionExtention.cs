@@ -23,6 +23,7 @@ namespace EvMa.CatalogService.Extensions
             services.AddTransient<IGrpcAttributeValueConverter, GrpcAttributeValueConverter>();
             services.AddTransient<IGrpcAttributeSetConverter, GrpcAttributeSetConverter>();
             services.AddTransient<IGprcProductConverter, GprcProductConverter>();
+            services.AddTransient<IGrpcCategoryConverter, GrpcCategoryConverter>();
 
             return services;
         }
