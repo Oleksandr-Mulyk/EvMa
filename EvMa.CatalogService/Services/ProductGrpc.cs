@@ -12,7 +12,7 @@ namespace EvMa.CatalogService.Services
     public class ProductGrpc(IProductRepository productRepository, IGprcProductConverter gprcProductConverter)
         : ProductService.ProductServiceBase
     {
-        public override async Task<GrpcProduct> GetById(IdRequest idRequest, ServerCallContext context)
+        public override async Task<GrpcProduct> GetById(ProductIdRequest idRequest, ServerCallContext context)
         {
             IProduct product = await productRepository.GetByIdAsync(Guid.Parse(idRequest.Id));
 
@@ -52,7 +52,7 @@ namespace EvMa.CatalogService.Services
             return product.ToGrpcProduct();
         }
 
-        public override async Task<Empty> DeleteById(IdRequest idRequest, ServerCallContext context)
+        public override async Task<Empty> DeleteById(ProductIdRequest idRequest, ServerCallContext context)
         {
             IProduct product = await productRepository.GetByIdAsync(Guid.Parse(idRequest.Id));
             await productRepository.DeleteAsync(product);

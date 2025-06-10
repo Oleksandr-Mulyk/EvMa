@@ -15,7 +15,7 @@
 
         public string Description { get; set; } = string.Empty;
 
-        public int ParentCategoryId { get; set; }
+        public Guid ParentCategoryId { get; set; }
 
         public bool IsActive { get; set; } = true;
 

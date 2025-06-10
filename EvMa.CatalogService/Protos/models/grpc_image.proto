@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package catalog_service;
+
+option csharp_namespace = "EvMa.CatalogService.Protos";
+
+message GrpcImage {
+	string id = 1;
+	string url = 2;
+	string alt_text = 3;
+	int32 order = 4;
+}
