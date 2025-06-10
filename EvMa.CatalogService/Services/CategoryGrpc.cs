@@ -60,4 +60,5 @@ namespace EvMa.CatalogService.Services
 
             return new Empty();
         }
+    }
 }
