@@ -15,8 +15,13 @@ builder.AddProject<Projects.EvMa_Web>("webfrontend")
     .WithReference(apiService)
     .WaitFor(apiService);
 
-builder.AddProject<Projects.EvMa_CatalogService>("evma-catalogservice")
+var migrationService = builder.AddProject<Projects.Evma_MigrationWorkerService>("evma-migrations")
     .WithReference(catalogDB)
     .WaitFor(catalogDB);
+
+builder.AddProject<Projects.EvMa_CatalogService>("evma-catalogservice")
+    .WithReference(catalogDB)
+    .WaitFor(catalogDB)
+    .WaitFor(migrationService);
 
 builder.Build().Run();
