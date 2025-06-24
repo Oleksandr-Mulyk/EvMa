@@ -7,7 +7,7 @@ namespace EvMa.CatalogService.Services.Converters
     {
         public IProductAttribute ToProductAttribute(GrpcProductAttribute productAttribute) =>
             catalogFactory.CreateProductAttribute(
-                Guid.Parse(productAttribute.Id),
+                productAttribute.Id == string.Empty ? Guid.NewGuid() : Guid.Parse(productAttribute.Id),
                 productAttribute.Name,
                 productAttribute.Type
             );

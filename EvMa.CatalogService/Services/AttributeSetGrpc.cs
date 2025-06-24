@@ -20,6 +20,7 @@ namespace EvMa.CatalogService.Services
 
             return attributeSet.ToGrpcAttributeSet();
         }
+
         public override async Task<AttributeSetListResponse> GetAll(Empty request, ServerCallContext context)
         {
             List<IAttributeSet> attributeSets = await attributeSetRepository.GetAll().ToListAsync();

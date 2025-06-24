@@ -4,7 +4,8 @@ var cache = builder.AddRedis("cache");
 
 var apiService = builder.AddProject<Projects.EvMa_ApiService>("apiservice");
 
-var sql = builder.AddSqlServer("sqlserver");
+var sql = builder.AddSqlServer("sqlserver")
+    .WithDataVolume();
 
 var catalogDB = sql.AddDatabase("catalogdb");
 

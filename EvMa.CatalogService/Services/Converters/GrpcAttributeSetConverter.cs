@@ -10,7 +10,7 @@ namespace EvMa.CatalogService.Services.Converters
     {
         public IAttributeSet ToAttributeSet(GrpcAttributeSet attributeSet) =>
             catalogFactory.CreateAttributeSet(
-                Guid.Parse(attributeSet.Id),
+                attributeSet.Id == string.Empty ? Guid.NewGuid() : Guid.Parse(attributeSet.Id),
                 attributeSet.Name,
                 [ .. attributeSet.Attributes.Select(grpcProductAttributeConverter.ToProductAttribute)]
                 );

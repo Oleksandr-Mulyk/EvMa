@@ -9,6 +9,23 @@ namespace EvMa.CatalogService.Data.Repositories
         protected override DbSet<AttributeSet> DbSet => applicationContext.AttributeSets;
 
         public override IQueryable<IAttributeSet> GetAll() =>
-            base.GetAll().Include(aset => aset.Attributes);
+            applicationContext.AttributeSets
+                .Include(aset => aset.Attributes)
+                .AsQueryable()
+                .Select(aset => aset as IAttributeSet);
+
+        public override async Task<IAttributeSet> GetByIdAsync(Guid id) =>
+            await applicationContext.AttributeSets
+                .Include(aset => aset.Attributes)
+                .FirstOrDefaultAsync(aset => aset.Id == id) 
+            ?? throw new Exception(NotFoundMessage);
+
+        public override async Task<IAttributeSet> UpdateAsync(IAttributeSet entity)
+        {
+            _ = await GetByIdAsync(entity.Id);
+            //IAttributeSet? oldEntity = entity;
+            await applicationContext.SaveChangesAsync();
+            return entity;
+        }
     }
 }
