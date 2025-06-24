@@ -13,8 +13,10 @@ namespace EvMa.CatalogService.Services.Extensions
                 Value = (double)price.Value,
                 MinQuantity = (double)price.MinQuantity,
                 MaxQuantity = (double)price.MaxQuantity,
-                StartAt = price.StartAt?.ToTimestamp(),
-                EndAt = price.EndAt?.ToTimestamp(),
+                StartAt = price.StartAt.HasValue ?
+                    Timestamp.FromDateTime(price.StartAt.Value.ToUniversalTime()) :
+                    null,
+                EndAt = price.EndAt.HasValue ? Timestamp.FromDateTime(price.EndAt.Value.ToUniversalTime()) : null,
             };
     }
 }

@@ -9,7 +9,7 @@ namespace EvMa.CatalogService.Services.Extensions
             new()
             {
                 Id = attributeValue.Id.ToString(),
-                Attribute = attributeValue.Attribute.ToGrpcProductAttribute(),
+                AttributeId = attributeValue.Attribute.Id.ToString(),
                 Value = attributeValue.Value
             };
     }

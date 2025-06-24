@@ -8,30 +8,53 @@ namespace EvMa.CatalogService.Data.Repositories
     {
         protected override DbSet<Product> DbSet => dbContext.Products;
 
+        public override async Task<IProduct> GetByIdAsync(Guid id) =>
+            await DbSet
+            .Include(p => p.Prices)
+            .Include(p => p.AttributeSet).ThenInclude(aset => aset.Attributes)
+            .Include(p => p.AttributeValues).ThenInclude(aset => aset.Attribute)
+            .Include(p => p.Images)
+            .FirstOrDefaultAsync(p => p.Id == id) ?? throw new Exception(NotFoundMessage);
+
         public virtual async Task<IProduct> GetBySkuAsync(string sku) =>
-            await DbSet.FirstOrDefaultAsync(p => p.Sku == sku) ?? throw new Exception(NotFoundMessage);
+            await DbSet
+            .Include(p => p.Prices)
+            .Include(p => p.AttributeSet).ThenInclude(aset => aset.Attributes)
+            .Include(p => p.AttributeValues).ThenInclude(aset => aset.Attribute)
+            .Include(p => p.Images)
+            .FirstOrDefaultAsync(p => p.Sku == sku) ?? throw new Exception(NotFoundMessage);
 
         public override IQueryable<IProduct> GetAll() =>
-            base.GetAll()
+            DbSet
             .Include(p => p.Prices)
-            .Include(p => p.AttributeSet)
-            .Include(p => p.AttributeValues)
-            .Include(p => p.Images);
+            .Include(p => p.AttributeSet).ThenInclude(aset => aset.Attributes)
+            .Include(p => p.AttributeValues).ThenInclude(aset => aset.Attribute)
+            .Include(p => p.Images)
+            .AsQueryable()
+            .Select(p => p as IProduct);
 
-        public override async Task<IProduct> AddAsync(IProduct entity) =>
-            IsValidProduct(entity) ?
-            await base.AddAsync(entity) :
-            throw new Exception(InvalidProductAttributesMessage);
+        public override async Task<IProduct> AddAsync(IProduct entity)
+        {
+            dbContext.Entry(entity.AttributeSet).State = EntityState.Unchanged;
 
-        public override async Task<IProduct> UpdateAsync(IProduct entity) =>
-            IsValidProduct(entity) ?
-            await base.UpdateAsync(entity) :
-            throw new Exception(InvalidProductAttributesMessage);
+            return IsValidProduct(entity) ?
+                await base.AddAsync(entity) :
+                throw new Exception(InvalidProductAttributesMessage);
+        }
+
+        public override async Task<IProduct> UpdateAsync(IProduct entity)
+        {
+            dbContext.Entry(entity.AttributeSet).State = EntityState.Unchanged;
+
+            return IsValidProduct(entity) ?
+                await base.UpdateAsync(entity) :
+                throw new Exception(InvalidProductAttributesMessage);
+        }
 
         protected virtual bool IsValidProduct(IProduct product)
         {
             var requiredAttributeIds = product.AttributeSet.Attributes?.Select(a => a.Id) ?? [];
-            var valueAttributeIds = product.AttributeValues.Select(av => av.Attribute.Id) ?? [];
+            var valueAttributeIds = product.AttributeValues?.Select(av => av.Attribute.Id) ?? [];
 
             return requiredAttributeIds.All(valueAttributeIds.Contains);
         }

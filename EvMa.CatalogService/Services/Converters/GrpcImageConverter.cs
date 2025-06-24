@@ -6,6 +6,10 @@ namespace EvMa.CatalogService.Services.Converters
     public class GrpcImageConverter(ICatalogFactory catalogFactory) : IGrpcImageConverter
     {
         public IImage ToImage(GrpcImage image) =>
-            catalogFactory.CreateImage(Guid.Parse(image.Id), image.Url, image.AltText, image.Order);
+            catalogFactory.CreateImage(
+                image.Id == string.Empty ? Guid.NewGuid() : Guid.Parse(image.Id),
+                image.Url, image.AltText,
+                image.Order
+                );
     }
 }

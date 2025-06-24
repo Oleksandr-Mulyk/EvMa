@@ -31,10 +31,16 @@
 
     public class Category : Category<Product, ProductAttribute, AttributeSet, AttributeValue, Price, Image>, ICategory
     {
-        IList<IProduct>
-            ICategory<IProduct, IProductAttribute, IAttributeSet, IAttributeValue, IPrice, IImage>.Products
-        { get; set; }
+        IList<IProduct> ICategory<IProduct, IProductAttribute, IAttributeSet, IAttributeValue, IPrice, IImage>.Products
+        {
+            get => [.. Products?.Cast<IProduct>() ?? []];
+            set => Products = [.. value?.Cast<Product>() ?? []];
+        }
+
         IList<IImage>? ICategory<IProduct, IProductAttribute, IAttributeSet, IAttributeValue, IPrice, IImage>.Images
-        { get; set; }
+        {
+            get => [.. Images?.Cast<IImage>() ?? []];
+            set => Images = [.. value?.Cast<Image>() ?? []];
+        }
     }
 }

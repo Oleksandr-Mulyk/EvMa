@@ -21,7 +21,7 @@ message GrpcProduct {
 	double regular_price = 7;
 	repeated GrpcPrice prices = 8;
 	double stock_quantity = 9;
-	GrpcAttributeSet attribute_set = 10;
+	string attribute_set_id = 10;
 	repeated GrpcAttributeValue attribute_values = 11;
 	repeated GrpcImage images = 12;
 	repeated string tags = 13;

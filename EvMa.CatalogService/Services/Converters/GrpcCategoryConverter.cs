@@ -11,7 +11,7 @@ namespace EvMa.CatalogService.Services.Converters
     {
         public ICategory ToCategory(GrpcCategory grpcCategory) =>
             catalogFactory.CreateCategory(
-                Guid.Parse(grpcCategory.Id),
+                grpcCategory.Id == string.Empty ? Guid.NewGuid() : Guid.Parse(grpcCategory.Id),
                 grpcCategory.Name,
                 grpcCategory.Description,
                 Guid.Parse(grpcCategory.ParentId),

@@ -1,4 +1,5 @@
 ﻿using EvMa.CatalogService.Data;
+using EvMa.CatalogService.Data.Repositories;
 using EvMa.CatalogService.Protos;
 
 namespace EvMa.CatalogService.Services.Converters
@@ -7,13 +8,13 @@ namespace EvMa.CatalogService.Services.Converters
         ICatalogFactory catalogFactory,
         IGrpcImageConverter grpcImageConverter,
         IGrpcPriceConverter grpcPriceConverter,
-        IGrpcAttributeSetConverter grpcAttributeSetConverter,
-        IGrpcAttributeValueConverter grpcAttributeValueConverter
+        IGrpcAttributeValueConverter grpcAttributeValueConverter,
+        IRepository<IAttributeSet> attributeSetRepository
         ) : IGprcProductConverter
     {
         public IProduct ToProduct(GrpcProduct product) =>
             catalogFactory.CreateProduct(
-                Guid.Parse(product.Id),
+                product.Id == string.Empty ? Guid.NewGuid() : Guid.Parse(product.Id),
                 product.Sku,
                 product.Name,
                 product.Description,
@@ -26,7 +27,7 @@ namespace EvMa.CatalogService.Services.Converters
                 (decimal)product.RegularPrice,
                 [.. product.Prices.Select(grpcPriceConverter.ToPrice)],
                 (decimal)product.StockQuantity,
-                grpcAttributeSetConverter.ToAttributeSet(product.AttributeSet),
+                attributeSetRepository.GetByIdAsync(Guid.Parse(product.AttributeSetId)).Result,
                 [.. product.AttributeValues.Select(grpcAttributeValueConverter.ToAttributeValue)],
                 [.. product.Images.Select(grpcImageConverter.ToImage)],
                 [.. product.Tags],

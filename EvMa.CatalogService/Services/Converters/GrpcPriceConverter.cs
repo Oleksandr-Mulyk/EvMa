@@ -7,7 +7,7 @@ namespace EvMa.CatalogService.Services.Converters
     {
         public IPrice ToPrice(GrpcPrice price) =>
             catalogFactory.CreatePrice(
-                Guid.Parse(price.Id),
+                price.Id == string.Empty ? Guid.NewGuid() : Guid.Parse(price.Id),
                 (decimal)price.Value,
                 (decimal?)price.MinQuantity,
                 (decimal?)price.MaxQuantity,

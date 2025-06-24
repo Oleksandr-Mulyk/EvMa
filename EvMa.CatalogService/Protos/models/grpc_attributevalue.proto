@@ -9,6 +9,5 @@ import "Protos/models/grpc_productattribute.proto";
 message GrpcAttributeValue {
 	string id = 1;
 	string value = 2;
-	repeated string values = 3;
-	GrpcProductAttribute attribute = 4;
+	string attribute_id = 3;
 }

@@ -9,6 +9,7 @@ namespace EvMa.CatalogService.Services.Extensions
             new()
             {
                 Id = product.Id.ToString(),
+                Sku = product.Sku,
                 Name = product.Name,
                 Description = product.Description,
                 Weight = (double)product.Weight,
@@ -21,7 +22,7 @@ namespace EvMa.CatalogService.Services.Extensions
                 RegularPrice = (double)product.RegularPrice,
                 Prices = { product.Prices?.Select(p => p.ToGrpcPrice()) },
                 StockQuantity = (double)product.StockQuantity,
-                AttributeSet = product.AttributeSet.ToGrpcAttributeSet(),
+                AttributeSetId = product.AttributeSet.Id.ToString(),
                 AttributeValues = { product.AttributeValues?.Select(av => av.ToGrpcAttributeValue()) },
                 Images = { product.Images?.Select(i => i.ToGrpcImage()) },
                 Tags = { product.Tags ?? [] },

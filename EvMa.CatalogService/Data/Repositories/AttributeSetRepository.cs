@@ -3,29 +3,30 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EvMa.CatalogService.Data.Repositories
 {
-    public class AttributeSetRepository(ApplicationContext applicationContext) : 
-        DbContextRepository<IAttributeSet, AttributeSet>(applicationContext)
+    public class AttributeSetRepository(ApplicationContext dbContext) : 
+        DbContextRepository<IAttributeSet, AttributeSet>(dbContext)
     {
-        protected override DbSet<AttributeSet> DbSet => applicationContext.AttributeSets;
+        protected override DbSet<AttributeSet> DbSet => dbContext.AttributeSets;
 
         public override IQueryable<IAttributeSet> GetAll() =>
-            applicationContext.AttributeSets
-                .Include(aset => aset.Attributes)
-                .AsQueryable()
-                .Select(aset => aset as IAttributeSet);
+            DbSet
+            .Include(aset => aset.Attributes)
+            .AsQueryable()
+            .Select(aset => aset as IAttributeSet);
 
         public override async Task<IAttributeSet> GetByIdAsync(Guid id) =>
-            await applicationContext.AttributeSets
+            await DbSet
                 .Include(aset => aset.Attributes)
                 .FirstOrDefaultAsync(aset => aset.Id == id) 
             ?? throw new Exception(NotFoundMessage);
 
         public override async Task<IAttributeSet> UpdateAsync(IAttributeSet entity)
         {
-            _ = await GetByIdAsync(entity.Id);
-            //IAttributeSet? oldEntity = entity;
-            await applicationContext.SaveChangesAsync();
-            return entity;
+            var attributeSet = await GetByIdAsync(entity.Id);
+            attributeSet.Name = entity.Name;
+            attributeSet.Attributes = entity.Attributes;
+            await dbContext.SaveChangesAsync();
+            return attributeSet;
         }
     }
 }

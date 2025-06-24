@@ -1,4 +1,5 @@
 ﻿using EvMa.CatalogService.Data;
+using EvMa.CatalogService.Data.Models;
 using EvMa.CatalogService.Data.Repositories;
 using EvMa.CatalogService.Services.Converters;
 
@@ -11,6 +12,7 @@ namespace EvMa.CatalogService.Extensions
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IRepository<IAttributeSet>, AttributeSetRepository>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
+            services.AddTransient<IRepository<IProductAttribute>, ProductAttributeRepository>();
 
             return services;
         }
