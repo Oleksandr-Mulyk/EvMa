@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <Sdk Name="Aspire.AppHost.Sdk" Version="9.0.0" />
 
@@ -10,11 +10,6 @@
     <IsAspireHost>true</IsAspireHost>
     <UserSecretsId>2a10a63d-f42e-42e6-bf1c-8f1a25a82ff4</UserSecretsId>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\EvMa.ApiService\EvMa.ApiService.csproj" />
-    <ProjectReference Include="..\EvMa.Web\EvMa.Web.csproj" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Aspire.Hosting.AppHost" Version="9.0.0" />
