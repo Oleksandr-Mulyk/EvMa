@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+option csharp_namespace = "EvMa.Web.Admin.Protos";
+
+package catalog_service;
+
+import "Protos/models/grpc_productattribute.proto";
+
+message GrpcAttributeSet {
+	string id = 1;
+	string name = 2;
+	repeated GrpcProductAttribute attributes = 3;
+}
