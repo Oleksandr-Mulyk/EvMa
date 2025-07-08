@@ -14,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\EvMa.CatalogService\EvMa.CatalogService.csproj" />
     <ProjectReference Include="..\Evma.MigrationWorkerService\Evma.MigrationWorkerService.csproj" />
+    <ProjectReference Include="..\EvMa.Web.Admin\EvMa.Web.Admin.csproj" />
     <PackageReference Include="Aspire.Hosting.AppHost" Version="9.2.1" />
     <PackageReference Include="Aspire.Hosting.Redis" Version="9.2.1" />
     <PackageReference Include="Aspire.Hosting.SqlServer" Version="9.2.1" />
