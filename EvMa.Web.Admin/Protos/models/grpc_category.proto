@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option csharp_namespace = "EvMa.Web.Admin.Protos";
+
+package catalog_service;
+
+import "google/protobuf/timestamp.proto";
+import "Protos/models/grpc_product.proto";
+import "Protos/models/grpc_image.proto";
+
+message GrpcCategory {
+	string id = 1;
+	string name = 2;
+	string description = 3;
+	string parent_id = 4;
+	bool is_active = 5;
+	google.protobuf.Timestamp created_at = 6;
+	google.protobuf.Timestamp updated_at = 7;
+	repeated GrpcProduct products = 8;
+	repeated string product_ids = 9;
+	repeated GrpcImage images = 10;
+}

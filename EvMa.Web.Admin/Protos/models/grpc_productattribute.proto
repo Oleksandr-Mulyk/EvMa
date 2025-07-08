@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option csharp_namespace = "EvMa.Web.Admin.Protos";
+
+package catalog_service;
+
+message GrpcProductAttribute {
+	string id = 1;
+	string name = 2;
+	string type = 3;
+}

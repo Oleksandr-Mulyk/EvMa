@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option csharp_namespace = "EvMa.Web.Admin.Protos";
+
+package catalog_service;
+
+import "google/protobuf/timestamp.proto";
+
+message GrpcPrice {
+	string id = 1;
+	double value = 2;
+	double min_quantity = 3;
+	double max_quantity = 4;
+	google.protobuf.Timestamp start_at = 5;
+	google.protobuf.Timestamp end_at = 6;
+}
