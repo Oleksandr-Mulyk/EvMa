@@ -1,7 +1,7 @@
-﻿using EvMa.CatalogService.Data.Repositories;
-using EvMa.CatalogService.Protos;
+﻿using EvMa.CatalogService.Protos;
 using EvMa.CatalogService.Services.Converters;
 using EvMa.CatalogService.Services.Extensions;
+using EvMa.Core;
 using EvMa.ECommerceLibrary.Models;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;

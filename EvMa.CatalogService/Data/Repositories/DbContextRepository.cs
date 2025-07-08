@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EvMa.Core;
+using Microsoft.EntityFrameworkCore;
 
 namespace EvMa.CatalogService.Data.Repositories
 {
