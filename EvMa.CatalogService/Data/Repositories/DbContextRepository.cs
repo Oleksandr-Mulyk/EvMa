@@ -13,6 +13,8 @@ namespace EvMa.CatalogService.Data.Repositories
 
         public virtual IQueryable<T> GetAll() => DbSet.AsQueryable().Select(item => item as T);
 
+        public virtual async Task<IList<T>> GetListAsync() => await GetAll().ToListAsync();
+
         public virtual async Task<T> AddAsync(T entity)
         {
             var result = await DbSet.AddAsync(entity as TClass ?? throw new InvalidCastException());
