@@ -17,5 +17,6 @@ message GrpcCategory {
 	google.protobuf.Timestamp created_at = 6;
 	google.protobuf.Timestamp updated_at = 7;
 	repeated GrpcProduct products = 8;
-	repeated GrpcImage images = 9;
+	repeated string product_ids = 9;
+	repeated GrpcImage images = 10;
 }

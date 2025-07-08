@@ -26,6 +26,7 @@ namespace EvMa.CatalogService.Data.Repositories
             attributeSet.Name = entity.Name;
             attributeSet.Attributes = entity.Attributes;
             await dbContext.SaveChangesAsync();
+
             return attributeSet;
         }
     }

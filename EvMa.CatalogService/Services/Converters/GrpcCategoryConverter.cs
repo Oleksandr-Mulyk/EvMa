@@ -1,12 +1,13 @@
 ﻿using EvMa.CatalogService.Data;
+using EvMa.CatalogService.Data.Repositories;
 using EvMa.CatalogService.Protos;
 
 namespace EvMa.CatalogService.Services.Converters
 {
     public class GrpcCategoryConverter(
         ICatalogFactory catalogFactory,
-        IGprcProductConverter grpcProductConverter,
-        IGrpcImageConverter grpcImageConverter
+        IGrpcImageConverter grpcImageConverter,
+        IProductRepository productRepository
         ) : IGrpcCategoryConverter
     {
         public ICategory ToCategory(GrpcCategory grpcCategory) =>
@@ -14,11 +15,11 @@ namespace EvMa.CatalogService.Services.Converters
                 grpcCategory.Id == string.Empty ? Guid.NewGuid() : Guid.Parse(grpcCategory.Id),
                 grpcCategory.Name,
                 grpcCategory.Description,
-                Guid.Parse(grpcCategory.ParentId),
+                grpcCategory.ParentId == string.Empty ? null : Guid.Parse(grpcCategory.ParentId),
                 grpcCategory.IsActive,
-                grpcCategory.CreatedAt.ToDateTime(),
-                grpcCategory.UpdatedAt.ToDateTime(),
-                [.. grpcCategory.Products.Select(grpcProductConverter.ToProduct)],
+                grpcCategory.CreatedAt?.ToDateTime() ?? DateTime.Now,
+                grpcCategory.UpdatedAt?.ToDateTime() ?? DateTime.Now,
+                [.. productRepository.GetAllByIds([.. grpcCategory.ProductIds.Select(Guid.Parse)])],
                 [.. grpcCategory.Images.Select(grpcImageConverter.ToImage)]
             );
     }

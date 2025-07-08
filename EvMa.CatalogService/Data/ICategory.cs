@@ -14,7 +14,7 @@
 
         public string Description { get; set; }
 
-        public Guid ParentCategoryId { get; set; }
+        public Guid? ParentCategoryId { get; set; }
 
         public bool IsActive { get; set; }
 
@@ -25,6 +25,8 @@
         public IList<TProduct> Products { get; set; }
 
         public IList<TImage>? Images { get; set; }
+
+        public IList<Guid> ProductIds { get; set;  }
     }
 
     public interface ICategory :

@@ -93,7 +93,7 @@ namespace EvMa.CatalogService.Data
             Guid id,
             string name,
             string description,
-            Guid parentCategoryId,
+            Guid? parentCategoryId,
             bool isActive,
             DateTime createdAt,
             DateTime updatedAt,

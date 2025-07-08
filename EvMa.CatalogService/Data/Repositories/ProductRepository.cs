@@ -33,6 +33,16 @@ namespace EvMa.CatalogService.Data.Repositories
             .AsQueryable()
             .Select(p => p as IProduct);
 
+        public virtual IQueryable<IProduct> GetAllByIds(List<Guid> ids) =>
+            DbSet
+            .Include(p => p.Prices)
+            .Include(p => p.AttributeSet).ThenInclude(aset => aset.Attributes)
+            .Include(p => p.AttributeValues).ThenInclude(aset => aset.Attribute)
+            .Include(p => p.Images)
+            .Where(p => ids.Contains(p.Id))
+            .AsQueryable()
+            .Select(p => p as IProduct);
+
         public override async Task<IProduct> AddAsync(IProduct entity)
         {
             dbContext.Entry(entity.AttributeSet).State = EntityState.Unchanged;

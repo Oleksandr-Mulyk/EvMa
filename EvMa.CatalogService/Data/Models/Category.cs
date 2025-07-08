@@ -1,4 +1,6 @@
-﻿namespace EvMa.CatalogService.Data.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace EvMa.CatalogService.Data.Models
 {
     public class Category<TProduct, TProductAttribute, TAttributeSet, TAttributeValue, TPrice, TImage> :
         ICategory<TProduct, TProductAttribute, TAttributeSet, TAttributeValue, TPrice, TImage>
@@ -15,7 +17,7 @@
 
         public string Description { get; set; } = string.Empty;
 
-        public Guid ParentCategoryId { get; set; }
+        public Guid? ParentCategoryId { get; set; }
 
         public bool IsActive { get; set; } = true;
 
@@ -26,6 +28,9 @@
         public IList<TProduct> Products { get; set; } = [];
 
         public IList<TImage>? Images { get; set; } = [];
+
+        [NotMapped]
+        public virtual IList<Guid> ProductIds { get; set; } = [];
 
     }
 
