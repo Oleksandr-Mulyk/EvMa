@@ -1,6 +1,11 @@
 ﻿using EvMa.CatalogService.Data.Configurations;
 using EvMa.CatalogService.Data.Models;
+using EvMa.ECommerceLibrary.Models;
 using Microsoft.EntityFrameworkCore;
+
+using Price = EvMa.CatalogService.Data.Models.Price;
+using Category = EvMa.CatalogService.Data.Models.Category;
+using Product = EvMa.CatalogService.Data.Models.Product;
 
 namespace EvMa.CatalogService.Data
 {
