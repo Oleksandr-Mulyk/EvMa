@@ -3,6 +3,7 @@ using EvMa.CatalogService.Data.Repositories;
 using EvMa.CatalogService.Services.Converters;
 using EvMa.Core;
 using EvMa.ECommerceLibrary.Models;
+using EvMa.ECommerceLibrary.Repositories;
 
 namespace EvMa.CatalogService.Extensions
 {

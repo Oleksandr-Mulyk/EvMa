@@ -1,7 +1,7 @@
 ﻿using EvMa.Core;
 using EvMa.ECommerceLibrary.Models;
 
-namespace EvMa.CatalogService.Data.Repositories
+namespace EvMa.ECommerceLibrary.Repositories
 {
     public interface ICategoryRepository : IRepository<ICategory>
     {
