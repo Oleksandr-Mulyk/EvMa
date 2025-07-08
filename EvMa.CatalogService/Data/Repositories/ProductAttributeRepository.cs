@@ -1,4 +1,5 @@
 ﻿using EvMa.CatalogService.Data.Models;
+using EvMa.ECommerceLibrary.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace EvMa.CatalogService.Data.Repositories

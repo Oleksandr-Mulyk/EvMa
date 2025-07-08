@@ -1,4 +1,4 @@
-﻿namespace EvMa.CatalogService.Data
+﻿namespace EvMa.ECommerceLibrary.Models
 {
     public interface ICategory<TProduct, TProductAttribute, TAttributeSet, TAttributeValue, TPrice, TImage>
         where TProduct : IProduct<TProductAttribute, TAttributeSet, TAttributeValue, TPrice, TImage>

@@ -1,4 +1,5 @@
 ﻿using EvMa.CatalogService.Data.Models;
+using EvMa.ECommerceLibrary.Models;
 
 namespace EvMa.CatalogService.Data
 {

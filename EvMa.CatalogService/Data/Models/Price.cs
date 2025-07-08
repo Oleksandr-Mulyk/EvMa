@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using EvMa.ECommerceLibrary.Models;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EvMa.CatalogService.Data.Models
 {
