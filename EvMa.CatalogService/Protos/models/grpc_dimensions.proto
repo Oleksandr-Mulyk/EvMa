@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option csharp_namespace = "EvMa.CatalogService.Protos";
+
+package catalog_service;
+
+message GrpcDimensions {
+	double length = 1;
+	double width = 2;
+	double height = 3;
+}
