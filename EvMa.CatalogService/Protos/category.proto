@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+option csharp_namespace = "EvMa.CatalogService.Protos";
+
+package catalog_service;
+
+import "google/protobuf/empty.proto";
+import "Protos/models/grpc_category.proto";
+
+service CategoryService {
+	rpc GetById(CategoryIdRequest) returns (GrpcCategory);
+	rpc GetAll(google.protobuf.Empty) returns (CategoryListResponse);
+	rpc GetAllByParentCategoryId(ParentIdRequest) returns (CategoryListResponse);
+	rpc Add(GrpcCategory) returns (GrpcCategory);
+	rpc Update(GrpcCategory) returns (GrpcCategory);
+	rpc DeleteById(CategoryIdRequest) returns (google.protobuf.Empty);
+}
+
+message CategoryIdRequest {
+	string id = 1;
+}
+
+message ParentIdRequest {
+	string parent_id = 1;
+}
+
+message CategoryListResponse {
+	repeated GrpcCategory categories = 1;
+}

@@ -12,8 +12,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.0.0" />
-    <PackageReference Include="Aspire.Hosting.Redis" Version="9.0.0" />
+    <ProjectReference Include="..\EvMa.CatalogService\EvMa.CatalogService.csproj" />
+    <ProjectReference Include="..\Evma.MigrationWorkerService\Evma.MigrationWorkerService.csproj" />
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.2.1" />
+    <PackageReference Include="Aspire.Hosting.Redis" Version="9.2.1" />
+    <PackageReference Include="Aspire.Hosting.SqlServer" Version="9.2.1" />
   </ItemGroup>
 
 </Project>
