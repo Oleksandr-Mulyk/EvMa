@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <Sdk Name="Aspire.AppHost.Sdk" Version="9.0.0" />
 
@@ -12,13 +12,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EvMa.ApiService\EvMa.ApiService.csproj" />
     <ProjectReference Include="..\EvMa.CatalogService\EvMa.CatalogService.csproj" />
     <ProjectReference Include="..\Evma.MigrationWorkerService\Evma.MigrationWorkerService.csproj" />
-    <ProjectReference Include="..\EvMa.Web\EvMa.Web.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Aspire.Hosting.AppHost" Version="9.2.1" />
     <PackageReference Include="Aspire.Hosting.Redis" Version="9.2.1" />
     <PackageReference Include="Aspire.Hosting.SqlServer" Version="9.2.1" />
