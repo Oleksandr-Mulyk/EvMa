@@ -13,6 +13,6 @@ var migrationService = builder.AddProject<Projects.Evma_MigrationWorkerService>(
 
 builder.AddProject<Projects.EvMa_CatalogService>("evma-catalogservice")
     .WithReference(catalogDB)
-    .WaitFor(catalogDB)
+    .WaitFor(catalogDB);
 
 builder.Build().Run();
