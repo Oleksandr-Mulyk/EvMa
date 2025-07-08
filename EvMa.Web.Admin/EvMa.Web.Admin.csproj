@@ -20,8 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="Protos\attributeset.proto" GrpcServices="Server" />
-    <Protobuf Include="Protos\category.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\attributeset.proto" GrpcServices="Client" />
+    <Protobuf Include="Protos\product.proto" GrpcServices="Client" />
+    <Protobuf Include="Protos\category.proto" GrpcServices="Client" />
     <Protobuf Include="Protos\models\grpc_attributeset.proto" />
     <Protobuf Include="Protos\models\grpc_attributevalue.proto" />
     <Protobuf Include="Protos\models\grpc_category.proto" />
@@ -30,7 +31,6 @@
     <Protobuf Include="Protos\models\grpc_price.proto" />
     <Protobuf Include="Protos\models\grpc_product.proto" />
     <Protobuf Include="Protos\models\grpc_productattribute.proto" />
-    <Protobuf Include="Protos\product.proto" GrpcServices="Server" />
   </ItemGroup>
 
 </Project>
