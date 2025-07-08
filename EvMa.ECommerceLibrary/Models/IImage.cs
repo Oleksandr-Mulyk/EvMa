@@ -1,4 +1,4 @@
-﻿namespace EvMa.CatalogService.Data
+﻿namespace EvMa.ECommerceLibrary.Models
 {
     public interface IImage
     {

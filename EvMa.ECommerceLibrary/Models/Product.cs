@@ -1,7 +1,4 @@
-﻿using EvMa.ECommerceLibrary.Models;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace EvMa.CatalogService.Data.Models
+﻿namespace EvMa.ECommerceLibrary.Models
 {
     public class Product<TProductAttribute, TAttributeSet, TAttributeValue, TPrice, TImage> :
         IProduct<TProductAttribute, TAttributeSet, TAttributeValue, TPrice, TImage>
@@ -19,7 +16,6 @@ namespace EvMa.CatalogService.Data.Models
 
         public string Description { get; set; } = string.Empty;
 
-        [Column(TypeName = "decimal(18,2)")]
         public decimal Weight { get; set; } = 0m;
 
         protected decimal _length = 0m;
@@ -28,7 +24,6 @@ namespace EvMa.CatalogService.Data.Models
 
         protected decimal _height = 0m;
 
-        [NotMapped]
         public (decimal Length, decimal Width, decimal Height) Dimensions
         {
             get => (_length, _width, _height);
@@ -40,12 +35,10 @@ namespace EvMa.CatalogService.Data.Models
             }
         }
 
-        [Column(TypeName = "decimal(18,2)")]
         public decimal RegularPrice { get; set; } = 0m;
 
         public IList<TPrice>? Prices { get; set; } = [];
 
-        [Column(TypeName = "decimal(18,2)")]
         public decimal StockQuantity { get; set; }
 
         public TAttributeSet AttributeSet{ get; set; }

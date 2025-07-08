@@ -1,7 +1,4 @@
-﻿using EvMa.ECommerceLibrary.Models;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace EvMa.CatalogService.Data.Models
+﻿namespace EvMa.ECommerceLibrary.Models
 {
     public class Category<TProduct, TProductAttribute, TAttributeSet, TAttributeValue, TPrice, TImage> :
         ICategory<TProduct, TProductAttribute, TAttributeSet, TAttributeValue, TPrice, TImage>
@@ -30,7 +27,6 @@ namespace EvMa.CatalogService.Data.Models
 
         public IList<TImage>? Images { get; set; } = [];
 
-        [NotMapped]
         public virtual IList<Guid> ProductIds { get; set; } = [];
 
     }

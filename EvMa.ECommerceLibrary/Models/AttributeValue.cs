@@ -1,4 +1,4 @@
-﻿namespace EvMa.CatalogService.Data.Models
+﻿namespace EvMa.ECommerceLibrary.Models
 {
     public class AttributeValue<TProductAttribute> : IAttributeValue<TProductAttribute>
         where TProductAttribute : IProductAttribute

@@ -1,4 +1,4 @@
-﻿namespace EvMa.CatalogService.Data.Repositories
+﻿namespace EvMa.Core
 {
     public interface IRepository<T, TId> where T : class
     {

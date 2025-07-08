@@ -1,4 +1,4 @@
-﻿using EvMa.CatalogService.Data.Models;
+﻿using EvMa.ECommerceLibrary.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
