@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option csharp_namespace = "EvMa.CatalogService.Protos";
+
+package catalog_service;
+
+import "google/protobuf/empty.proto";
+import "Protos/models/grpc_attributeset.proto";
+
+service AttributeSetService {
+  rpc GetById(AttributeSetIdRequest) returns (GrpcAttributeSet);
+  rpc GetAll(google.protobuf.Empty) returns (AttributeSetListResponse);
+  rpc Add(GrpcAttributeSet) returns (GrpcAttributeSet);
+  rpc Update(GrpcAttributeSet) returns (GrpcAttributeSet);
+  rpc DeleteById(AttributeSetIdRequest) returns (google.protobuf.Empty);
+}
+
+message AttributeSetIdRequest {
+  string id = 1;
+}
+
+message AttributeSetListResponse {
+  repeated GrpcAttributeSet attribute_sets = 1;
+}

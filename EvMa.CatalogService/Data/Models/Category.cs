@@ -1,4 +1,6 @@
-﻿namespace EvMa.CatalogService.Data.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace EvMa.CatalogService.Data.Models
 {
     public class Category<TProduct, TProductAttribute, TAttributeSet, TAttributeValue, TPrice, TImage> :
         ICategory<TProduct, TProductAttribute, TAttributeSet, TAttributeValue, TPrice, TImage>
@@ -15,7 +17,7 @@
 
         public string Description { get; set; } = string.Empty;
 
-        public int ParentCategoryId { get; set; }
+        public Guid? ParentCategoryId { get; set; }
 
         public bool IsActive { get; set; } = true;
 
@@ -27,14 +29,23 @@
 
         public IList<TImage>? Images { get; set; } = [];
 
+        [NotMapped]
+        public virtual IList<Guid> ProductIds { get; set; } = [];
+
     }
 
     public class Category : Category<Product, ProductAttribute, AttributeSet, AttributeValue, Price, Image>, ICategory
     {
-        IList<IProduct>
-            ICategory<IProduct, IProductAttribute, IAttributeSet, IAttributeValue, IPrice, IImage>.Products
-        { get; set; }
+        IList<IProduct> ICategory<IProduct, IProductAttribute, IAttributeSet, IAttributeValue, IPrice, IImage>.Products
+        {
+            get => [.. Products?.Cast<IProduct>() ?? []];
+            set => Products = [.. value?.Cast<Product>() ?? []];
+        }
+
         IList<IImage>? ICategory<IProduct, IProductAttribute, IAttributeSet, IAttributeValue, IPrice, IImage>.Images
-        { get; set; }
+        {
+            get => [.. Images?.Cast<IImage>() ?? []];
+            set => Images = [.. value?.Cast<Image>() ?? []];
+        }
     }
 }

@@ -12,6 +12,10 @@
 
     public class AttributeValue : AttributeValue<ProductAttribute>, IAttributeValue
     {
-        IProductAttribute IAttributeValue<IProductAttribute>.Attribute { get; set; }
+        IProductAttribute IAttributeValue<IProductAttribute>.Attribute
+        {
+            get => Attribute;
+            set => Attribute = value as ProductAttribute ?? throw new InvalidCastException("Invalid attribute type.");
+        }
     }
 }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EvMa.CatalogService.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20250606154813_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20250624202040_NullableParentCategoryId")]
+    partial class NullableParentCategoryId
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -117,8 +117,8 @@ namespace EvMa.CatalogService.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ParentCategoryId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("ParentCategoryId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()

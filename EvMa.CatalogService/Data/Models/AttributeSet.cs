@@ -12,6 +12,10 @@
 
     public class AttributeSet : AttributeSet<ProductAttribute>, IAttributeSet
     {
-        IList<IProductAttribute> IAttributeSet<IProductAttribute>.Attributes { get; set; }
+        IList<IProductAttribute> IAttributeSet<IProductAttribute>.Attributes
+        {
+            get => [.. Attributes?.Cast<IProductAttribute>() ?? []];
+            set => Attributes = [.. value?.Cast<ProductAttribute>() ?? []];
+        }
     }
 }

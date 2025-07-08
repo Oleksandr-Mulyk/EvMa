@@ -2,17 +2,19 @@
 
 namespace EvMa.CatalogService.Data.Repositories
 {
-    public class DbContextRepository<T, TClass, TId>(DbSet<TClass> dbSet, ApplicationContext dbContext)
+    public abstract class DbContextRepository<T, TClass, TId>(ApplicationContext dbContext)
         : IRepository<T, TId> where T : class where TClass : class, T
     {
-        public virtual async Task<T> GetByIdAsync(TId id) =>
-            await dbSet.FindAsync(id) ?? throw new Exception(NotFoundMessage);
+        protected abstract DbSet<TClass> DbSet { get; }
 
-        public virtual IQueryable<T> GetAll() => dbSet.AsQueryable().Select(item => item as T);
+        public virtual async Task<T> GetByIdAsync(TId id) =>
+            await DbSet.FindAsync(id) ?? throw new Exception(NotFoundMessage);
+
+        public virtual IQueryable<T> GetAll() => DbSet.AsQueryable().Select(item => item as T);
 
         public virtual async Task<T> AddAsync(T entity)
         {
-            var result = await dbSet.AddAsync(entity as TClass ?? throw new InvalidCastException());
+            var result = await DbSet.AddAsync(entity as TClass ?? throw new InvalidCastException());
 
             if (result.State == EntityState.Added)
             {
@@ -25,7 +27,7 @@ namespace EvMa.CatalogService.Data.Repositories
 
         public virtual async Task<T> UpdateAsync(T entity)
         {
-            var result = dbSet.Update(entity as TClass ?? throw new InvalidCastException());
+            var result = DbSet.Update(entity as TClass ?? throw new InvalidCastException());
 
             if (result.State == EntityState.Modified)
             {
@@ -38,7 +40,7 @@ namespace EvMa.CatalogService.Data.Repositories
 
         public virtual async Task DeleteAsync(T entity)
         {
-            var result = dbSet.Remove(entity as TClass ?? throw new InvalidCastException());
+            var result = DbSet.Remove(entity as TClass ?? throw new InvalidCastException());
 
             if (result.State == EntityState.Deleted)
             {
@@ -59,7 +61,7 @@ namespace EvMa.CatalogService.Data.Repositories
         protected virtual string NotDeletedMessage => $"{typeof(TClass).Name} not deleted";
     }
 
-    public class DbContextRepository<T, TClass>(DbSet<TClass> dbSet, ApplicationContext dbContext) :
-        DbContextRepository<T, TClass, Guid>(dbSet, dbContext), IRepository<T>
+    public abstract class DbContextRepository<T, TClass>(ApplicationContext dbContext) :
+        DbContextRepository<T, TClass, Guid>(dbContext), IRepository<T>
         where T : class where TClass : class, T { }
 }

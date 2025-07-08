@@ -1,4 +1,6 @@
-﻿namespace EvMa.CatalogService.Data.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace EvMa.CatalogService.Data.Models
 {
     public class ProductAttribute : IProductAttribute
     {

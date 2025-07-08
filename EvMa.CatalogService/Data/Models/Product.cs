@@ -65,15 +65,29 @@ namespace EvMa.CatalogService.Data.Models
 
     public class Product : Product<ProductAttribute, AttributeSet, AttributeValue, Price, Image>, IProduct
     {
-        IList<IPrice>? IProduct<IProductAttribute, IAttributeSet, IAttributeValue, IPrice, IImage>.Prices { get; set; }
+        IList<IPrice>? IProduct<IProductAttribute, IAttributeSet, IAttributeValue, IPrice, IImage>.Prices
+        {
+            get => [.. Prices?.Cast<IPrice>() ?? []];
+            set => Prices = [.. value?.Cast<Price>() ?? []];
+        }
 
         IAttributeSet IProduct<IProductAttribute, IAttributeSet, IAttributeValue, IPrice, IImage>.AttributeSet
-        { get; set; }
+        {
+            get => AttributeSet;
+            set => AttributeSet = (AttributeSet)value;
+        }
 
         IList<IAttributeValue>
             IProduct<IProductAttribute, IAttributeSet, IAttributeValue, IPrice, IImage>.AttributeValues
-        { get; set; }
+        {
+            get => [.. AttributeValues?.Cast<IAttributeValue>() ?? []];
+            set => AttributeValues = [.. value?.Cast<AttributeValue>() ?? []];
+        }
 
-        IList<IImage>? IProduct<IProductAttribute, IAttributeSet, IAttributeValue, IPrice, IImage>.Images { get; set; }
+        IList<IImage>? IProduct<IProductAttribute, IAttributeSet, IAttributeValue, IPrice, IImage>.Images
+        {
+            get => [.. Images?.Cast<IImage>() ?? []];
+            set => Images = [.. value?.Cast<Image>() ?? []];
+        }
     }
 }

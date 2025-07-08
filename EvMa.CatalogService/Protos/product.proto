@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+option csharp_namespace = "EvMa.CatalogService.Protos";
+
+package catalog_service;
+
+import "google/protobuf/empty.proto";
+import "Protos/models/grpc_product.proto";
+
+service ProductService {
+	rpc GetById(ProductIdRequest) returns (GrpcProduct);
+	rpc GetBySku(SkuRequest) returns (GrpcProduct);
+	rpc GetAll(google.protobuf.Empty) returns (ProductListResponse);
+	rpc Add(GrpcProduct) returns (GrpcProduct);
+	rpc Update(GrpcProduct) returns (GrpcProduct);
+	rpc DeleteById(ProductIdRequest) returns (google.protobuf.Empty);
+}
+
+message ProductIdRequest {
+	string id = 1;
+}
+
+message SkuRequest {
+	string sku = 1;
+}
+
+message ProductListResponse {
+	repeated GrpcProduct products = 1;
+}
