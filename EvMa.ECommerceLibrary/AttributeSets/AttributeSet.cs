@@ -1,4 +1,6 @@
-﻿namespace EvMa.ECommerceLibrary.Models
+﻿using EvMa.ECommerceLibrary.ProductAttributes;
+
+namespace EvMa.ECommerceLibrary.AttributeSets
 {
     public class AttributeSet<TProductAttribute> : IAttributeSet<TProductAttribute>
         where TProductAttribute : IProductAttribute

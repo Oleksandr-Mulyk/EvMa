@@ -1,9 +1,9 @@
-﻿using EvMa.CatalogService.Data.Models;
-using EvMa.CatalogService.Data.Repositories;
+﻿using EvMa.CatalogService.Data.Repositories;
 using EvMa.CatalogService.Services.Converters;
-using EvMa.Core;
-using EvMa.ECommerceLibrary.Models;
-using EvMa.ECommerceLibrary.Repositories;
+using EvMa.ECommerceLibrary.AttributeSets;
+using EvMa.ECommerceLibrary.Categories;
+using EvMa.ECommerceLibrary.ProductAttributes;
+using EvMa.ECommerceLibrary.Products;
 
 namespace EvMa.CatalogService.Extensions
 {
@@ -11,10 +11,10 @@ namespace EvMa.CatalogService.Extensions
     {
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
-            services.AddTransient<IProductRepository, ProductRepository>();
-            services.AddTransient<IRepository<IAttributeSet>, AttributeSetRepository>();
-            services.AddTransient<ICategoryRepository, CategoryRepository>();
-            services.AddTransient<IRepository<IProductAttribute>, ProductAttributeRepository>();
+            services.AddTransient<IQuerableProductRepository, ProductRepository>();
+            services.AddTransient<IQuerableAttributeSetRepository, AttributeSetRepository>();
+            services.AddTransient<IQuerableCategoryRepository, CategoryRepository>();
+            services.AddTransient<IQuerableProductAttributeRepository, ProductAttributeRepository>();
 
             return services;
         }

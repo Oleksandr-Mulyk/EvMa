@@ -2,7 +2,7 @@
 using EvMa.CatalogService.Services.Converters;
 using EvMa.CatalogService.Services.Extensions;
 using EvMa.Core;
-using EvMa.ECommerceLibrary.Models;
+using EvMa.ECommerceLibrary.AttributeSets;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.EntityFrameworkCore;

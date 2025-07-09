@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 namespace EvMa.CatalogService.Data.Repositories
 {
     public abstract class DbContextRepository<T, TClass, TId>(ApplicationContext dbContext)
-        : IRepository<T, TId> where T : class where TClass : class, T
+        : IRepository<T, TId>, IQuerableRepository<T> where T : class where TClass : class, T
     {
         protected abstract DbSet<TClass> DbSet { get; }
 
@@ -12,8 +12,6 @@ namespace EvMa.CatalogService.Data.Repositories
             await DbSet.FindAsync(id) ?? throw new Exception(NotFoundMessage);
 
         public virtual IQueryable<T> GetAll() => DbSet.AsQueryable().Select(item => item as T);
-
-        public virtual async Task<IList<T>> GetListAsync() => await GetAll().ToListAsync();
 
         public virtual async Task<T> AddAsync(T entity)
         {

@@ -1,4 +1,4 @@
-﻿namespace EvMa.ECommerceLibrary.Models
+﻿namespace EvMa.ECommerceLibrary.ProductAttributes
 {
     public interface IProductAttribute
     {

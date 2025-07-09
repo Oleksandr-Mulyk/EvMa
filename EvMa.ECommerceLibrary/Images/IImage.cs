@@ -1,4 +1,4 @@
-﻿namespace EvMa.ECommerceLibrary.Models
+﻿namespace EvMa.ECommerceLibrary.Images
 {
     public interface IImage
     {

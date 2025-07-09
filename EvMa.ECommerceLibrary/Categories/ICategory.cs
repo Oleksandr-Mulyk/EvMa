@@ -1,4 +1,11 @@
-﻿namespace EvMa.ECommerceLibrary.Models
+﻿using EvMa.ECommerceLibrary.AttributeSets;
+using EvMa.ECommerceLibrary.AttributeValues;
+using EvMa.ECommerceLibrary.Images;
+using EvMa.ECommerceLibrary.Prices;
+using EvMa.ECommerceLibrary.ProductAttributes;
+using EvMa.ECommerceLibrary.Products;
+
+namespace EvMa.ECommerceLibrary.Categories
 {
     public interface ICategory<TProduct, TProductAttribute, TAttributeSet, TAttributeValue, TPrice, TImage>
         where TProduct : IProduct<TProductAttribute, TAttributeSet, TAttributeValue, TPrice, TImage>

@@ -1,5 +1,5 @@
 ﻿using EvMa.Core;
-using EvMa.ECommerceLibrary.Models;
+using EvMa.ECommerceLibrary.AttributeSets;
 using EvMa.Web.Admin.Protos;
 
 namespace EvMa.Web.Admin.Repositories

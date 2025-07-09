@@ -1,4 +1,4 @@
-﻿using EvMa.ECommerceLibrary.Models;
+﻿using EvMa.ECommerceLibrary.Prices;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EvMa.CatalogService.Data.Models

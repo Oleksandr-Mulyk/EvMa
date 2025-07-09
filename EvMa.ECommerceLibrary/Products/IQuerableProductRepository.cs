@@ -1,9 +1,8 @@
 ﻿using EvMa.Core;
-using EvMa.ECommerceLibrary.Models;
 
-namespace EvMa.ECommerceLibrary.Repositories
+namespace EvMa.ECommerceLibrary.Products
 {
-    public interface IProductRepository : IRepository<IProduct>
+    public interface IQuerableProductRepository : IRepository<IProduct>, IQuerableRepository<IProduct>
     {
         public Task<IProduct> GetBySkuAsync(string sku);
 

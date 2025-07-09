@@ -1,12 +1,11 @@
-﻿using EvMa.ECommerceLibrary.Models;
-using EvMa.ECommerceLibrary.Repositories;
+﻿using EvMa.ECommerceLibrary.Products;
 using Microsoft.EntityFrameworkCore;
 using Product = EvMa.CatalogService.Data.Models.Product;
 
 namespace EvMa.CatalogService.Data.Repositories
 {
     public class ProductRepository(ApplicationContext dbContext) :
-        DbContextRepository<IProduct, Product>(dbContext), IProductRepository
+        DbContextRepository<IProduct, Product>(dbContext), IQuerableProductRepository
     {
         protected override DbSet<Product> DbSet => dbContext.Products;
 

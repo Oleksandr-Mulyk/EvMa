@@ -1,5 +1,5 @@
 ﻿using EvMa.CatalogService.Protos;
-using EvMa.ECommerceLibrary.Models;
+using EvMa.ECommerceLibrary.Categories;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.IdentityModel.Tokens;
 

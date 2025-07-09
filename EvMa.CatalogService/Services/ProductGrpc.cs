@@ -1,15 +1,14 @@
 ﻿using EvMa.CatalogService.Protos;
 using EvMa.CatalogService.Services.Converters;
 using EvMa.CatalogService.Services.Extensions;
-using EvMa.ECommerceLibrary.Models;
-using EvMa.ECommerceLibrary.Repositories;
+using EvMa.ECommerceLibrary.Products;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace EvMa.CatalogService.Services
 {
-    public class ProductGrpc(IProductRepository productRepository, IGprcProductConverter gprcProductConverter)
+    public class ProductGrpc(IQuerableProductRepository productRepository, IGprcProductConverter gprcProductConverter)
         : ProductService.ProductServiceBase
     {
         public override async Task<GrpcProduct> GetById(ProductIdRequest idRequest, ServerCallContext context)

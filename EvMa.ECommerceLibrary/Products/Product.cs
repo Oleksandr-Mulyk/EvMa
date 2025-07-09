@@ -1,4 +1,10 @@
-﻿namespace EvMa.ECommerceLibrary.Models
+﻿using EvMa.ECommerceLibrary.AttributeSets;
+using EvMa.ECommerceLibrary.AttributeValues;
+using EvMa.ECommerceLibrary.Images;
+using EvMa.ECommerceLibrary.Prices;
+using EvMa.ECommerceLibrary.ProductAttributes;
+
+namespace EvMa.ECommerceLibrary.Products
 {
     public class Product<TProductAttribute, TAttributeSet, TAttributeValue, TPrice, TImage> :
         IProduct<TProductAttribute, TAttributeSet, TAttributeValue, TPrice, TImage>

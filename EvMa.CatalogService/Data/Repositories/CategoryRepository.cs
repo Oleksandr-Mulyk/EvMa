@@ -1,5 +1,5 @@
-﻿using EvMa.ECommerceLibrary.Models;
-using EvMa.ECommerceLibrary.Repositories;
+﻿using EvMa.ECommerceLibrary.Categories;
+using EvMa.ECommerceLibrary.Images;
 using Microsoft.EntityFrameworkCore;
 
 using Category = EvMa.CatalogService.Data.Models.Category;
@@ -8,7 +8,7 @@ using Product = EvMa.CatalogService.Data.Models.Product;
 namespace EvMa.CatalogService.Data.Repositories
 {
     public class CategoryRepository(ApplicationContext dbContext) :
-        DbContextRepository<ICategory, Category>(dbContext), ICategoryRepository
+        DbContextRepository<ICategory, Category>(dbContext), IQuerableCategoryRepository
     {
         protected override DbSet<Category> DbSet => dbContext.Categories;
 

@@ -1,4 +1,12 @@
-﻿namespace EvMa.ECommerceLibrary.Models
+﻿using EvMa.ECommerceLibrary.AttributeSets;
+using EvMa.ECommerceLibrary.AttributeValues;
+using EvMa.ECommerceLibrary.Categories;
+using EvMa.ECommerceLibrary.Images;
+using EvMa.ECommerceLibrary.Prices;
+using EvMa.ECommerceLibrary.ProductAttributes;
+using EvMa.ECommerceLibrary.Products;
+
+namespace EvMa.ECommerceLibrary
 {
     public interface ICatalogFactory
     {

@@ -1,4 +1,6 @@
-﻿namespace EvMa.ECommerceLibrary.Models
+﻿using EvMa.ECommerceLibrary.ProductAttributes;
+
+namespace EvMa.ECommerceLibrary.AttributeValues
 {
     public interface IAttributeValue<TProductAttribute> where TProductAttribute : IProductAttribute
     {

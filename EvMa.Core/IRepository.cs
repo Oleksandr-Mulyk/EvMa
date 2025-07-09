@@ -4,10 +4,6 @@
     {
         public Task<T> GetByIdAsync(TId id);
 
-        public IQueryable<T> GetAll();
-
-        public Task<IList<T>> GetListAsync();
-
         public Task<T> AddAsync(T entity);
 
         public Task<T> UpdateAsync(T entity);

@@ -1,13 +1,14 @@
 ﻿using EvMa.CatalogService.Protos;
-using EvMa.ECommerceLibrary.Models;
-using EvMa.ECommerceLibrary.Repositories;
+using EvMa.ECommerceLibrary;
+using EvMa.ECommerceLibrary.Categories;
+using EvMa.ECommerceLibrary.Products;
 
 namespace EvMa.CatalogService.Services.Converters
 {
     public class GrpcCategoryConverter(
         ICatalogFactory catalogFactory,
         IGrpcImageConverter grpcImageConverter,
-        IProductRepository productRepository
+        IQuerableProductRepository productRepository
         ) : IGrpcCategoryConverter
     {
         public ICategory ToCategory(GrpcCategory grpcCategory) =>

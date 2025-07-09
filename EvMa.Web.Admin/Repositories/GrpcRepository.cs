@@ -6,7 +6,7 @@ namespace EvMa.Web.Admin.Repositories
     public abstract class GrpcRepository<T, TRequest, TId, TIdRequest, TClient, TConverter>(
         TClient client,
         TConverter converter
-        ) : IRepository<T, TId>
+        ) : IRepository<T, TId>, IListableRepository<T>
             where T : class
             where TRequest : class, new()
             where TId : notnull
@@ -22,11 +22,6 @@ namespace EvMa.Web.Admin.Repositories
             return result != null ?
                 converter.ConvertToEntity(result) :
                 throw new InvalidOperationException($"Method '{GetByIdMethodName}' returned null for id '{id}'.");
-        }
-
-        public virtual IQueryable<T> GetAll()
-        {
-            throw new NotImplementedException();
         }
 
         public virtual async Task<IList<T>> GetListAsync()

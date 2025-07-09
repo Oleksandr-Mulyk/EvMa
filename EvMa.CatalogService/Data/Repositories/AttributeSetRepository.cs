@@ -1,10 +1,10 @@
-﻿using EvMa.ECommerceLibrary.Models;
+﻿using EvMa.ECommerceLibrary.AttributeSets;
 using Microsoft.EntityFrameworkCore;
 
 namespace EvMa.CatalogService.Data.Repositories
 {
     public class AttributeSetRepository(ApplicationContext dbContext) : 
-        DbContextRepository<IAttributeSet, AttributeSet>(dbContext)
+        DbContextRepository<IAttributeSet, AttributeSet>(dbContext), IQuerableAttributeSetRepository
     {
         protected override DbSet<AttributeSet> DbSet => dbContext.AttributeSets;
 

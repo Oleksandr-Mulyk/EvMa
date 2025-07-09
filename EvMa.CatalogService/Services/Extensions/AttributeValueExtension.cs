@@ -1,5 +1,5 @@
 ﻿using EvMa.CatalogService.Protos;
-using EvMa.ECommerceLibrary.Models;
+using EvMa.ECommerceLibrary.AttributeValues;
 
 namespace EvMa.CatalogService.Services.Extensions
 {

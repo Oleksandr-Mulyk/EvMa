@@ -1,7 +1,7 @@
 using EvMa.CatalogService.Data;
 using EvMa.CatalogService.Extensions;
 using EvMa.CatalogService.Services;
-using EvMa.ECommerceLibrary.Models;
+using EvMa.ECommerceLibrary;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

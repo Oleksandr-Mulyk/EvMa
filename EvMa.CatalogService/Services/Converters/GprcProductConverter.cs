@@ -1,6 +1,8 @@
 ﻿using EvMa.CatalogService.Protos;
 using EvMa.Core;
-using EvMa.ECommerceLibrary.Models;
+using EvMa.ECommerceLibrary;
+using EvMa.ECommerceLibrary.AttributeSets;
+using EvMa.ECommerceLibrary.Products;
 
 namespace EvMa.CatalogService.Services.Converters
 {

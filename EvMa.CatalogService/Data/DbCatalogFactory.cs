@@ -1,8 +1,14 @@
-﻿using EvMa.ECommerceLibrary.Models;
-
-using Price = EvMa.CatalogService.Data.Models.Price;
+﻿using Price = EvMa.CatalogService.Data.Models.Price;
 using Category = EvMa.CatalogService.Data.Models.Category;
 using Product = EvMa.CatalogService.Data.Models.Product;
+using EvMa.ECommerceLibrary.AttributeSets;
+using EvMa.ECommerceLibrary.Products;
+using EvMa.ECommerceLibrary.Categories;
+using EvMa.ECommerceLibrary.Images;
+using EvMa.ECommerceLibrary.Prices;
+using EvMa.ECommerceLibrary;
+using EvMa.ECommerceLibrary.AttributeValues;
+using EvMa.ECommerceLibrary.ProductAttributes;
 
 namespace EvMa.CatalogService.Data
 {
