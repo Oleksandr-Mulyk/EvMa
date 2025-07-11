@@ -1,8 +1,7 @@
-﻿using EvMa.CatalogService.Protos;
-using EvMa.CatalogService.Services.Converters;
-using EvMa.CatalogService.Services.Extensions;
-using EvMa.Core;
+﻿using EvMa.CatalogService.Data.Repositories;
 using EvMa.ECommerceLibrary.AttributeSets;
+using EvMa.ECommerceLibrary.Grpc.Converters;
+using EvMa.ECommerceLibrary.Grpc.Protos;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.EntityFrameworkCore;
@@ -10,15 +9,15 @@ using Microsoft.EntityFrameworkCore;
 namespace EvMa.CatalogService.Services
 {
     public class AttributeSetGrpc(
-        IRepository<IAttributeSet> attributeSetRepository,
-        IGrpcAttributeSetConverter grpcAttributeSetConverter
+        AttributeSetRepository attributeSetRepository,
+        IGrpcConverter<GrpcAttributeSet, IAttributeSet> grpcAttributeSetConverter
         ) : AttributeSetService.AttributeSetServiceBase
     {
         public override async Task<GrpcAttributeSet> GetById(AttributeSetIdRequest idRequest, ServerCallContext context)
         {
             IAttributeSet attributeSet = await attributeSetRepository.GetByIdAsync(Guid.Parse(idRequest.Id));
 
-            return attributeSet.ToGrpcAttributeSet();
+            return grpcAttributeSetConverter.ConvertToGrpc(attributeSet);
         }
 
         public override async Task<AttributeSetListResponse> GetAll(Empty request, ServerCallContext context)
@@ -27,22 +26,22 @@ namespace EvMa.CatalogService.Services
 
             return new AttributeSetListResponse
             {
-                AttributeSets = { attributeSets.Select(aset => aset.ToGrpcAttributeSet()) }
+                AttributeSets = { attributeSets.Select(grpcAttributeSetConverter.ConvertToGrpc) }
             };
         }
         public override async Task<GrpcAttributeSet> Add(GrpcAttributeSet grpcAttributeSet, ServerCallContext context)
         {
-            IAttributeSet attributeSet = grpcAttributeSetConverter.ToAttributeSet(grpcAttributeSet);
+            IAttributeSet attributeSet = grpcAttributeSetConverter.ConvertToEntity(grpcAttributeSet);
             attributeSet = await attributeSetRepository.AddAsync(attributeSet);
 
-            return attributeSet.ToGrpcAttributeSet();
+            return grpcAttributeSetConverter.ConvertToGrpc(attributeSet);
         }
         public override async Task<GrpcAttributeSet> Update(GrpcAttributeSet grpcAttributeSet, ServerCallContext context)
         {
-            IAttributeSet attributeSet = grpcAttributeSetConverter.ToAttributeSet(grpcAttributeSet);
+            IAttributeSet attributeSet = grpcAttributeSetConverter.ConvertToEntity(grpcAttributeSet);
             attributeSet = await attributeSetRepository.UpdateAsync(attributeSet);
 
-            return attributeSet.ToGrpcAttributeSet();
+            return grpcAttributeSetConverter.ConvertToGrpc(attributeSet);
         }
         public override async Task<Empty> DeleteById(AttributeSetIdRequest idRequest, ServerCallContext context)
         {

@@ -1,7 +1,11 @@
 ﻿using EvMa.CatalogService.Data.Repositories;
-using EvMa.CatalogService.Services.Converters;
 using EvMa.ECommerceLibrary.AttributeSets;
+using EvMa.ECommerceLibrary.AttributeValues;
 using EvMa.ECommerceLibrary.Categories;
+using EvMa.ECommerceLibrary.Grpc.Converters;
+using EvMa.ECommerceLibrary.Grpc.Protos;
+using EvMa.ECommerceLibrary.Images;
+using EvMa.ECommerceLibrary.Prices;
 using EvMa.ECommerceLibrary.ProductAttributes;
 using EvMa.ECommerceLibrary.Products;
 
@@ -21,13 +25,13 @@ namespace EvMa.CatalogService.Extensions
 
         public static IServiceCollection AddServiceGrpcModelsToModelsConverters(this IServiceCollection services)
         {
-            services.AddTransient<IGrpcImageConverter, GrpcImageConverter>();
-            services.AddTransient<IGrpcPriceConverter, GrpcPriceConverter>();
-            services.AddTransient<IGrpcProductAttributeConverter, GrpcProductAttributeConverter>();
-            services.AddTransient<IGrpcAttributeValueConverter, GrpcAttributeValueConverter>();
-            services.AddTransient<IGrpcAttributeSetConverter, GrpcAttributeSetConverter>();
-            services.AddTransient<IGprcProductConverter, GprcProductConverter>();
-            services.AddTransient<IGrpcCategoryConverter, GrpcCategoryConverter>();
+            services.AddTransient<IGrpcConverter<GrpcImage, IImage>, GrpcImageConverter>();
+            services.AddTransient<IGrpcConverter<GrpcPrice, IPrice>, GrpcPriceConverter>();
+            services.AddTransient<IGrpcConverter<GrpcProductAttribute, IProductAttribute>, GrpcProductAttributeConverter>();
+            services.AddTransient<IGrpcConverter<GrpcAttributeValue, IAttributeValue>, GrpcAttributeValueConverter>();
+            services.AddTransient<IGrpcConverter<GrpcAttributeSet, IAttributeSet>, GrpcAttributeSetConverter>();
+            services.AddTransient<IGrpcConverter<GrpcProduct, IProduct>, GprcProductConverter>();
+            services.AddTransient<IGrpcConverter<GrpcCategory, ICategory>, GrpcCategoryConverter>();
 
             return services;
         }

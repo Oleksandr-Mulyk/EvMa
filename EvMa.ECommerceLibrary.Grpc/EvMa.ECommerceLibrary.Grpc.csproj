@@ -6,4 +6,19 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Grpc.AspNetCore" Version="2.71.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EvMa.ECommerceLibrary\EvMa.ECommerceLibrary.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Protos\attributeset.proto" GrpcServices="Both" />
+    <Protobuf Include="Protos\product.proto" GrpcServices="Both" />
+    <Protobuf Include="Protos\category.proto" GrpcServices="Both" />
+    <Protobuf Include="Protos\models\*.proto" />
+  </ItemGroup>
+
 </Project>

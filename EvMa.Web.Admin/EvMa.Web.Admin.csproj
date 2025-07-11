@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EvMa.Core\EvMa.Core.csproj" />
+    <ProjectReference Include="..\EvMa.ECommerceLibrary.Grpc\EvMa.ECommerceLibrary.Grpc.csproj" />
     <ProjectReference Include="..\EvMa.ECommerceLibrary\EvMa.ECommerceLibrary.csproj" />
     <ProjectReference Include="..\EvMa.ServiceDefaults\EvMa.ServiceDefaults.csproj" />
   </ItemGroup>

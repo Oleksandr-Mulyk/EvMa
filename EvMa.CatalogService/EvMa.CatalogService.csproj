@@ -10,11 +10,9 @@
     <Protobuf Include="Protos\attributeset.proto" GrpcServices="Server" />
     <Protobuf Include="Protos\product.proto" GrpcServices="Server" />
     <Protobuf Include="Protos\category.proto" GrpcServices="Server" />
-    <Protobuf Include="Protos\models\*.proto" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Grpc.AspNetCore" Version="2.64.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.4">
@@ -25,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EvMa.Core\EvMa.Core.csproj" />
+    <ProjectReference Include="..\EvMa.ECommerceLibrary.Grpc\EvMa.ECommerceLibrary.Grpc.csproj" />
     <ProjectReference Include="..\EvMa.ECommerceLibrary\EvMa.ECommerceLibrary.csproj" />
     <ProjectReference Include="..\EvMa.ServiceDefaults\EvMa.ServiceDefaults.csproj" />
   </ItemGroup>
