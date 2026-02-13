@@ -11,5 +11,7 @@
   <Folder Name="/src/Shared/">
     <Project Path="src/Shared/EvMa.Contracts/EvMa.Contracts.csproj" Id="765bbf65-70c2-46b6-bc0e-9bb1522829b0" />
   </Folder>
-  <Folder Name="/tests/" />
+  <Folder Name="/tests/">
+    <Project Path="tests/EvMa.ServiceDefaults.Tests/EvMa.ServiceDefaults.Tests.csproj" Id="e4d5a4ce-02b9-4fbf-9dca-99405a1a0584" />
+  </Folder>
 </Solution>
