@@ -1,4 +1,4 @@
-<Project Sdk="Aspire.AppHost.Sdk/13.1.1">
+﻿<Project Sdk="Aspire.AppHost.Sdk/13.1.1">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -15,7 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EvMa.ServiceDefaults\EvMa.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\EvMa.ServiceDefaults\EvMa.ServiceDefaults.csproj"
+                      IsAspireProjectResource="false" />
   </ItemGroup>
 
 </Project>

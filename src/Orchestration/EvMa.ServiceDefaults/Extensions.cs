@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using OpenTelemetry;
 using OpenTelemetry.Metrics;
@@ -14,165 +15,166 @@ using OpenTelemetry.Trace;
 using Scalar.AspNetCore;
 using System.Reflection;
 
-namespace Microsoft.Extensions.Hosting;
-
-// Adds common Aspire services: service discovery, resilience, health checks, and OpenTelemetry.
-// This project should be referenced by each service project in your solution.
-// To learn more about using this project, see https://aka.ms/dotnet/aspire/service-defaults
-public static class Extensions
+namespace EvMa.ServiceDefaults
 {
-    private const string HealthEndpointPath = "/health";
-    private const string AlivenessEndpointPath = "/alive";
-
-    public static TBuilder AddServiceDefaults<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
+    // Adds common Aspire services: service discovery, resilience, health checks, and OpenTelemetry.
+    // This project should be referenced by each service project in your solution.
+    // To learn more about using this project, see https://aka.ms/dotnet/aspire/service-defaults
+    public static class Extensions
     {
-        builder.ConfigureOpenTelemetry();
+        private const string HealthEndpointPath = "/health";
+        private const string AlivenessEndpointPath = "/alive";
 
-        builder.AddDefaultHealthChecks();
-
-        builder.Services.AddServiceDiscovery();
-
-        builder.Services.ConfigureHttpClientDefaults(http =>
+        public static TBuilder AddServiceDefaults<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
         {
-            // Turn on resilience by default
-            http.AddStandardResilienceHandler();
+            builder.ConfigureOpenTelemetry();
 
-            // Turn on service discovery by default
-            http.AddServiceDiscovery();
-        });
+            builder.AddDefaultHealthChecks();
 
-        // Uncomment the following to restrict the allowed schemes for service discovery.
-        // builder.Services.Configure<ServiceDiscoveryOptions>(options =>
-        // {
-        //     options.AllowedSchemes = ["https"];
-        // });
+            builder.Services.AddServiceDiscovery();
 
-        return builder;
-    }
-
-    public static TBuilder ConfigureOpenTelemetry<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
-    {
-        builder.Logging.AddOpenTelemetry(logging =>
-        {
-            logging.IncludeFormattedMessage = true;
-            logging.IncludeScopes = true;
-        });
-
-        builder.Services.AddOpenTelemetry()
-            .WithMetrics(metrics =>
+            builder.Services.ConfigureHttpClientDefaults(http =>
             {
-                metrics.AddAspNetCoreInstrumentation()
-                    .AddHttpClientInstrumentation()
-                    .AddRuntimeInstrumentation()
-                    .AddMeter("MassTransit");
-            })
-            .WithTracing(tracing =>
-            {
-                tracing.AddSource(builder.Environment.ApplicationName)
-                    .AddSource("MassTransit")
-                    .AddAspNetCoreInstrumentation(options =>
-                    {
-                        options.Filter = context =>
-                            !context.Request.Path.StartsWithSegments(HealthEndpointPath) &&
-                            !context.Request.Path.StartsWithSegments(AlivenessEndpointPath) &&
-                            !context.Request.Path.StartsWithSegments("/scalar");
-                    })
-                    .AddGrpcClientInstrumentation()
-                    .AddHttpClientInstrumentation();
+                // Turn on resilience by default
+                http.AddStandardResilienceHandler();
+
+                // Turn on service discovery by default
+                http.AddServiceDiscovery();
             });
 
-        builder.AddOpenTelemetryExporters();
+            // Uncomment the following to restrict the allowed schemes for service discovery.
+            // builder.Services.Configure<ServiceDiscoveryOptions>(options =>
+            // {
+            //     options.AllowedSchemes = ["https"];
+            // });
 
-        return builder;
-    }
-
-    private static TBuilder AddOpenTelemetryExporters<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
-    {
-        var useOtlpExporter = !string.IsNullOrWhiteSpace(builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"]);
-
-        if (useOtlpExporter)
-        {
-            builder.Services.AddOpenTelemetry().UseOtlpExporter();
+            return builder;
         }
 
-        // Uncomment the following lines to enable the Azure Monitor exporter (requires the Azure.Monitor.OpenTelemetry.AspNetCore package)
-        //if (!string.IsNullOrEmpty(builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"]))
-        //{
-        //    builder.Services.AddOpenTelemetry()
-        //       .UseAzureMonitor();
-        //}
-
-        return builder;
-    }
-
-    public static TBuilder AddDefaultHealthChecks<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
-    {
-        builder.Services.AddHealthChecks()
-            // Add a default liveness check to ensure app is responsive
-            .AddCheck("self", () => HealthCheckResult.Healthy(), ["live"]);
-
-        return builder;
-    }
-
-    public static WebApplication MapDefaultEndpoints(this WebApplication app)
-    {
-        // Adding health checks endpoints to applications in non-development environments has security implications.
-        // See https://aka.ms/dotnet/aspire/healthchecks for details before enabling these endpoints in non-development environments.
-        if (app.Environment.IsDevelopment())
+        public static TBuilder ConfigureOpenTelemetry<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
         {
-            // All health checks must pass for app to be considered ready to accept traffic after starting
-            app.MapHealthChecks(HealthEndpointPath);
-
-            // Only health checks tagged with the "live" tag must pass for app to be considered alive
-            app.MapHealthChecks(AlivenessEndpointPath, new HealthCheckOptions
+            builder.Logging.AddOpenTelemetry(logging =>
             {
-                Predicate = r => r.Tags.Contains("live")
+                logging.IncludeFormattedMessage = true;
+                logging.IncludeScopes = true;
             });
+
+            builder.Services.AddOpenTelemetry()
+                .WithMetrics(metrics =>
+                {
+                    metrics.AddAspNetCoreInstrumentation()
+                        .AddHttpClientInstrumentation()
+                        .AddRuntimeInstrumentation()
+                        .AddMeter("MassTransit");
+                })
+                .WithTracing(tracing =>
+                {
+                    tracing.AddSource(builder.Environment.ApplicationName)
+                        .AddSource("MassTransit")
+                        .AddAspNetCoreInstrumentation(options =>
+                        {
+                            options.Filter = context =>
+                                !context.Request.Path.StartsWithSegments(HealthEndpointPath) &&
+                                !context.Request.Path.StartsWithSegments(AlivenessEndpointPath) &&
+                                !context.Request.Path.StartsWithSegments("/scalar");
+                        })
+                        .AddGrpcClientInstrumentation()
+                        .AddHttpClientInstrumentation();
+                });
+
+            builder.AddOpenTelemetryExporters();
+
+            return builder;
         }
 
-        return app;
-    }
-
-    public static IEndpointRouteBuilder MapDefaultApiDocumentation(this IEndpointRouteBuilder endpoints)
-    {
-        var env = endpoints.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
-
-        if (env.IsDevelopment())
+        private static TBuilder AddOpenTelemetryExporters<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
         {
-            endpoints.MapOpenApi();
+            var useOtlpExporter = !string.IsNullOrWhiteSpace(builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"]);
 
-            endpoints.MapScalarApiReference(options =>
+            if (useOtlpExporter)
             {
-                options.WithTitle("EvMa API Reference")
-                       .WithTheme(ScalarTheme.DeepSpace)
-                       .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient);
-            });
+                builder.Services.AddOpenTelemetry().UseOtlpExporter();
+            }
 
-            endpoints.MapGet("/", () => Results.Redirect("/scalar/v1")).ExcludeFromDescription();
+            // Uncomment the following lines to enable the Azure Monitor exporter (requires the Azure.Monitor.OpenTelemetry.AspNetCore package)
+            //if (!string.IsNullOrEmpty(builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"]))
+            //{
+            //    builder.Services.AddOpenTelemetry()
+            //       .UseAzureMonitor();
+            //}
+
+            return builder;
         }
 
-        return endpoints;
-    }
-
-    public static IHostApplicationBuilder AddDefaultMessaging(this IHostApplicationBuilder builder)
-    {
-        builder.Services.AddMassTransit(config =>
+        public static TBuilder AddDefaultHealthChecks<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
         {
-            config.SetKebabCaseEndpointNameFormatter();
+            builder.Services.AddHealthChecks()
+                // Add a default liveness check to ensure app is responsive
+                .AddCheck("self", () => HealthCheckResult.Healthy(), ["live"]);
 
-            config.AddConsumers(Assembly.GetEntryAssembly());
+            return builder;
+        }
 
-            config.UsingRabbitMq((context, cfg) =>
+        public static WebApplication MapDefaultEndpoints(this WebApplication app)
+        {
+            // Adding health checks endpoints to applications in non-development environments has security implications.
+            // See https://aka.ms/dotnet/aspire/healthchecks for details before enabling these endpoints in non-development environments.
+            if (app.Environment.IsDevelopment())
             {
-                var connectionString = builder.Configuration.GetConnectionString("messaging");
-                cfg.Host(connectionString);
+                // All health checks must pass for app to be considered ready to accept traffic after starting
+                app.MapHealthChecks(HealthEndpointPath);
 
-                cfg.ConfigureEndpoints(context);
+                // Only health checks tagged with the "live" tag must pass for app to be considered alive
+                app.MapHealthChecks(AlivenessEndpointPath, new HealthCheckOptions
+                {
+                    Predicate = r => r.Tags.Contains("live")
+                });
+            }
 
-                cfg.UseMessageRetry(r => r.Incremental(3, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(2)));
+            return app;
+        }
+
+        public static IEndpointRouteBuilder MapDefaultApiDocumentation(this IEndpointRouteBuilder endpoints)
+        {
+            var env = endpoints.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
+
+            if (env.IsDevelopment())
+            {
+                endpoints.MapOpenApi();
+
+                endpoints.MapScalarApiReference(options =>
+                {
+                    options.WithTitle("EvMa API Reference")
+                           .WithTheme(ScalarTheme.DeepSpace)
+                           .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient);
+                });
+
+                endpoints.MapGet("/", () => Results.Redirect("/scalar/v1")).ExcludeFromDescription();
+            }
+
+            return endpoints;
+        }
+
+        public static IHostApplicationBuilder AddDefaultMessaging(this IHostApplicationBuilder builder)
+        {
+            builder.Services.AddMassTransit(config =>
+            {
+                config.SetKebabCaseEndpointNameFormatter();
+
+                config.AddConsumers(Assembly.GetEntryAssembly());
+
+                config.UsingRabbitMq((context, cfg) =>
+                {
+                    var connectionString = builder.Configuration.GetConnectionString("messaging");
+                    cfg.Host(connectionString);
+
+                    cfg.ConfigureEndpoints(context);
+
+                    cfg.UseMessageRetry(r => r.Incremental(3, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(2)));
+                });
             });
-        });
 
-        return builder;
+            return builder;
+        }
     }
 }
