@@ -169,5 +169,60 @@ namespace EvMa.ServiceDefaults.Tests
 
             await app.StopAsync(TestContext.Current.CancellationToken);
         }
+
+        [Fact]
+        public async Task MapDefaultApiDocumentation_RedirectsToScalar_InDevelopment()
+        {
+            // Arrange
+            var builder = WebApplication.CreateBuilder();
+            builder.Environment.EnvironmentName = Environments.Development;
+
+            builder.Services.AddOpenApi();
+
+            builder.WebHost.UseUrls("http://127.0.0.1:0");
+            var app = builder.Build();
+
+            // Act
+            app.MapDefaultApiDocumentation();
+            await app.StartAsync(TestContext.Current.CancellationToken);
+
+            var address = app.Urls.First();
+            using var handler = new HttpClientHandler { AllowAutoRedirect = false };
+            using var client = new HttpClient(handler) { BaseAddress = new Uri(address) };
+
+            var response = await client.GetAsync("/", TestContext.Current.CancellationToken);
+
+            // Assert
+            Assert.Equal(HttpStatusCode.Redirect, response.StatusCode);
+            Assert.Equal("/scalar/v1", response.Headers.Location?.OriginalString);
+
+            await app.StopAsync(TestContext.Current.CancellationToken);
+        }
+
+        [Fact]
+        public async Task MapDefaultApiDocumentation_IsDisabled_InProduction()
+        {
+            // Arrange
+            var builder = WebApplication.CreateBuilder();
+            builder.Environment.EnvironmentName = Environments.Production;
+            builder.Services.AddOpenApi();
+
+            builder.WebHost.UseUrls("http://127.0.0.1:0");
+            var app = builder.Build();
+
+            // Act
+            app.MapDefaultApiDocumentation();
+            await app.StartAsync(TestContext.Current.CancellationToken);
+
+            var address = app.Urls.First();
+            using var client = new HttpClient { BaseAddress = new Uri(address) };
+
+            var response = await client.GetAsync("/", TestContext.Current.CancellationToken);
+
+            // Assert
+            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+
+            await app.StopAsync(TestContext.Current.CancellationToken);
+        }
     }
 }
