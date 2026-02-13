@@ -1,7 +1,9 @@
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -67,13 +69,11 @@ public static class Extensions
             {
                 tracing.AddSource(builder.Environment.ApplicationName)
                     .AddAspNetCoreInstrumentation(tracing =>
-                        // Exclude health check requests from tracing
                         tracing.Filter = context =>
                             !context.Request.Path.StartsWithSegments(HealthEndpointPath)
                             && !context.Request.Path.StartsWithSegments(AlivenessEndpointPath)
                     )
-                    // Uncomment the following line to enable gRPC instrumentation (requires the OpenTelemetry.Instrumentation.GrpcNetClient package)
-                    //.AddGrpcClientInstrumentation()
+                    .AddGrpcClientInstrumentation()
                     .AddHttpClientInstrumentation();
             });
 
@@ -126,21 +126,28 @@ public static class Extensions
             });
         }
 
-        if (app.Environment.IsDevelopment())
-        {
-            app.MapOpenApi();
+        return app;
+    }
 
-            app.MapScalarApiReference(options =>
+    public static IEndpointRouteBuilder MapDefaultApiDocumentation(this IEndpointRouteBuilder endpoints)
+    {
+        var env = endpoints.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
+
+        if (env.IsDevelopment())
+        {
+            endpoints.MapOpenApi();
+
+            endpoints.MapScalarApiReference(options =>
             {
                 options.WithTitle("EvMa API Reference")
                        .WithTheme(ScalarTheme.DeepSpace)
                        .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient);
             });
 
-            app.MapGet("/", () => Results.Redirect("/scalar/v1")).ExcludeFromDescription();
+            endpoints.MapGet("/", () => Results.Redirect("/scalar/v1")).ExcludeFromDescription();
         }
 
-        return app;
+        return endpoints;
     }
 
     public static IHostApplicationBuilder AddDefaultMessaging(this IHostApplicationBuilder builder)
