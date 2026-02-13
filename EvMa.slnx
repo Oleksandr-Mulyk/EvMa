@@ -4,5 +4,9 @@
     <File Path="Directory.Packages.props" />
   </Folder>
   <Folder Name="/src/" />
+  <Folder Name="/src/Orchestration/">
+    <Project Path="src/Orchestration/EvMa.AppHost/EvMa.AppHost.AppHost/EvMa.AppHost.AppHost.csproj" Id="008c2813-872f-4e2e-9829-f2be1d80ea40" />
+    <Project Path="src/Orchestration/EvMa.AppHost/EvMa.AppHost.ServiceDefaults/EvMa.AppHost.ServiceDefaults.csproj" />
+  </Folder>
   <Folder Name="/tests/" />
 </Solution>
