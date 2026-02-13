@@ -1,6 +1,10 @@
-﻿using MassTransit;
+﻿using EvMa.ServiceDefaults.Handlers;
+using MassTransit;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
@@ -9,10 +13,11 @@ using Microsoft.Extensions.ServiceDiscovery;
 using OpenTelemetry.Exporter;
 using OpenTelemetry.Trace;
 using System.Net;
+using System.Net.Http.Json;
 
 namespace EvMa.ServiceDefaults.Tests
 {
-    public class ServiceDefaultsTests
+    public class ExtensionsTests
     {
         [Fact]
         public void AddServiceDefaults_RegistersCoreComponents()
@@ -48,6 +53,24 @@ namespace EvMa.ServiceDefaults.Tests
             // Act & Assert
             var client = httpClientFactory.CreateClient("test");
             Assert.NotNull(client);
+        }
+
+        [Fact]
+        public void AddServiceDefaults_RegistersExceptionHandlingServices()
+        {
+            // Arrange
+            var builder = Host.CreateEmptyApplicationBuilder(null);
+
+            // Act
+            builder.AddServiceDefaults();
+            var provider = builder.Services.BuildServiceProvider();
+
+            // Assert
+            var exceptionHandlers = provider.GetServices<IExceptionHandler>();
+            Assert.Contains(exceptionHandlers, h => h is GlobalExceptionHandler);
+
+            var problemDetailsService = provider.GetService<IProblemDetailsService>();
+            Assert.NotNull(problemDetailsService);
         }
 
         [Fact]
@@ -172,6 +195,36 @@ namespace EvMa.ServiceDefaults.Tests
         }
 
         [Fact]
+        public async Task MapDefaultEndpoints_WhenExceptionOccurs_ReturnsProblemDetails()
+        {
+            // Arrange
+            var builder = WebApplication.CreateBuilder();
+            builder.AddServiceDefaults();
+
+            var app = builder.Build();
+            app.MapDefaultEndpoints();
+
+            app.MapGet("/error", () => { throw new Exception("Test exception"); });
+
+            await app.StartAsync(TestContext.Current.CancellationToken);
+            using var client = new HttpClient { BaseAddress = new Uri(app.Urls.First()) };
+
+            // Act
+            var response = await client.GetAsync("/error", TestContext.Current.CancellationToken);
+
+            // Assert
+            Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
+
+            var problem = await response.Content
+                .ReadFromJsonAsync<ProblemDetails>(cancellationToken: TestContext.Current.CancellationToken);
+            Assert.NotNull(problem);
+            Assert.Equal("Server Error", problem.Title);
+            Assert.Equal(500, problem.Status);
+
+            await app.StopAsync(TestContext.Current.CancellationToken);
+        }
+
+        [Fact]
         public async Task MapDefaultApiDocumentation_RedirectsToScalar_InDevelopment()
         {
             // Arrange
@@ -248,6 +301,25 @@ namespace EvMa.ServiceDefaults.Tests
 
             var busRegistration = provider.GetService<IBusRegistrationContext>();
             Assert.NotNull(busRegistration);
+        }
+
+        [Fact]
+        public void AddDefaultExceptionHandler_RegistersRequiredServices()
+        {
+            // Arrange
+            var builder = Host.CreateEmptyApplicationBuilder(null);
+
+            // Act
+            builder.AddDefaultExceptionHandler();
+            var provider = builder.Services.BuildServiceProvider();
+
+            // Assert
+            var handler = provider.GetService<IExceptionHandler>();
+            Assert.NotNull(handler);
+            Assert.IsType<GlobalExceptionHandler>(handler);
+
+            var problemDetailsService = provider.GetService<IProblemDetailsService>();
+            Assert.NotNull(problemDetailsService);
         }
     }
 }

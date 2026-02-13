@@ -1,3 +1,4 @@
+using EvMa.ServiceDefaults.Handlers;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -47,6 +48,8 @@ namespace EvMa.ServiceDefaults
             // {
             //     options.AllowedSchemes = ["https"];
             // });
+
+            builder.AddDefaultExceptionHandler();
 
             return builder;
         }
@@ -117,6 +120,8 @@ namespace EvMa.ServiceDefaults
 
         public static WebApplication MapDefaultEndpoints(this WebApplication app)
         {
+            app.UseExceptionHandler();
+
             // Adding health checks endpoints to applications in non-development environments has security implications.
             // See https://aka.ms/dotnet/aspire/healthchecks for details before enabling these endpoints in non-development environments.
             if (app.Environment.IsDevelopment())
@@ -173,6 +178,14 @@ namespace EvMa.ServiceDefaults
                     cfg.UseMessageRetry(r => r.Incremental(3, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(2)));
                 });
             });
+
+            return builder;
+        }
+
+        public static IHostApplicationBuilder AddDefaultExceptionHandler(this IHostApplicationBuilder builder)
+        {
+            builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+            builder.Services.AddProblemDetails();
 
             return builder;
         }
