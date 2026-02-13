@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using MassTransit;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -223,6 +224,30 @@ namespace EvMa.ServiceDefaults.Tests
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
 
             await app.StopAsync(TestContext.Current.CancellationToken);
+        }
+
+        [Fact]
+        public void AddDefaultMessaging_RegistersMassTransitWithRabbitMq()
+        {
+            // Arrange
+            var builder = Host.CreateEmptyApplicationBuilder(null);
+
+            var connectionString = "amqp://guest:guest@localhost:5672";
+            builder.Configuration["ConnectionStrings:messaging"] = connectionString;
+
+            // Act
+            builder.AddDefaultMessaging();
+            var provider = builder.Services.BuildServiceProvider();
+
+            // Assert
+            var busControl = provider.GetService<IBusControl>();
+            Assert.NotNull(busControl);
+
+            var formatter = provider.GetService<IEndpointNameFormatter>();
+            Assert.IsType<KebabCaseEndpointNameFormatter>(formatter);
+
+            var busRegistration = provider.GetService<IBusRegistrationContext>();
+            Assert.NotNull(busRegistration);
         }
     }
 }
