@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.ServiceDiscovery;
 using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
+using Scalar.AspNetCore;
 
 namespace Microsoft.Extensions.Hosting;
 
@@ -120,6 +122,20 @@ public static class Extensions
             {
                 Predicate = r => r.Tags.Contains("live")
             });
+        }
+
+        if (app.Environment.IsDevelopment())
+        {
+            app.MapOpenApi();
+
+            app.MapScalarApiReference(options =>
+            {
+                options.WithTitle("EvMa API Reference")
+                       .WithTheme(ScalarTheme.DeepSpace)
+                       .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient);
+            });
+
+            app.MapGet("/", () => Results.Redirect("/scalar/v1")).ExcludeFromDescription();
         }
 
         return app;

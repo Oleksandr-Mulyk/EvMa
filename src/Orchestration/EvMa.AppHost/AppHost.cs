@@ -1,3 +1,5 @@
+using Microsoft.Extensions.DependencyInjection;
+
 var builder = DistributedApplication.CreateBuilder(args);
 
 var postgres = builder.AddPostgres("postgres")
@@ -10,5 +12,7 @@ var cache = builder.AddRedis("cache");
 
 var messaging = builder.AddRabbitMQ("messaging")
     .WithManagementPlugin();
+
+builder.Services.AddOpenApi();
 
 builder.Build().Run();
