@@ -1,10 +1,13 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.ServiceDiscovery;
 using OpenTelemetry.Exporter;
 using OpenTelemetry.Trace;
+using System.Net;
 
 namespace EvMa.ServiceDefaults.Tests
 {
@@ -25,11 +28,9 @@ namespace EvMa.ServiceDefaults.Tests
             var sdOptions = provider.GetService<IConfigureOptions<ServiceDiscoveryOptions>>();
             Assert.NotNull(sdOptions);
 
-            // 2. ПЕРЕВІРКА OPEN TELEMETRY
             var tracerProvider = provider.GetService<TracerProvider>();
             Assert.NotNull(tracerProvider);
 
-            // 3. ПЕРЕВІРКА HEALTH CHECKS
             var healthOptions = provider.GetRequiredService<IOptions<HealthCheckServiceOptions>>();
             Assert.Contains(healthOptions.Value.Registrations, registration => registration.Name == "self");
         }
@@ -111,6 +112,62 @@ namespace EvMa.ServiceDefaults.Tests
                 await checkInstance.CheckHealthAsync(new HealthCheckContext(), TestContext.Current.CancellationToken);
 
             Assert.Equal(HealthStatus.Healthy, checkResult.Status);
+        }
+
+        [Fact]
+        public async Task MapDefaultEndpoints_ReturnsOk_InDevelopment()
+        {
+            // Arrange
+            var builder = WebApplication.CreateBuilder();
+
+            builder.Environment.EnvironmentName = Environments.Development;
+
+            builder.WebHost.UseUrls("http://127.0.0.1:0");
+
+            builder.AddServiceDefaults();
+
+            var app = builder.Build();
+            app.MapDefaultEndpoints();
+
+            // Act
+            await app.StartAsync(TestContext.Current.CancellationToken);
+
+            var address = app.Urls.First();
+            using var client = new HttpClient { BaseAddress = new Uri(address) };
+
+            var response = await client.GetAsync("/health", TestContext.Current.CancellationToken);
+
+            // Assert
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            await app.StopAsync(TestContext.Current.CancellationToken);
+        }
+
+        [Fact]
+        public async Task MapDefaultEndpoints_ReturnsNotFound_InProduction()
+        {
+            // Arrange
+            var builder = WebApplication.CreateBuilder();
+            builder.Environment.EnvironmentName = Environments.Production;
+
+            builder.WebHost.UseUrls("http://127.0.0.1:0");
+
+            builder.AddServiceDefaults();
+            var app = builder.Build();
+            app.MapDefaultEndpoints();
+
+            await app.StartAsync(TestContext.Current.CancellationToken);
+
+            var address = app.Urls.First();
+            using var client = new HttpClient { BaseAddress = new Uri(address) };
+
+            // Act
+            var healthResponse = await client.GetAsync("/health", TestContext.Current.CancellationToken);
+
+            // Assert
+            Assert.Equal(HttpStatusCode.NotFound, healthResponse.StatusCode);
+
+            await app.StopAsync(TestContext.Current.CancellationToken);
         }
     }
 }
