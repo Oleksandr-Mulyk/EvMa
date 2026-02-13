@@ -63,16 +63,20 @@ public static class Extensions
             {
                 metrics.AddAspNetCoreInstrumentation()
                     .AddHttpClientInstrumentation()
-                    .AddRuntimeInstrumentation();
+                    .AddRuntimeInstrumentation()
+                    .AddMeter("MassTransit");
             })
             .WithTracing(tracing =>
             {
                 tracing.AddSource(builder.Environment.ApplicationName)
-                    .AddAspNetCoreInstrumentation(tracing =>
-                        tracing.Filter = context =>
-                            !context.Request.Path.StartsWithSegments(HealthEndpointPath)
-                            && !context.Request.Path.StartsWithSegments(AlivenessEndpointPath)
-                    )
+                    .AddSource("MassTransit")
+                    .AddAspNetCoreInstrumentation(options =>
+                    {
+                        options.Filter = context =>
+                            !context.Request.Path.StartsWithSegments(HealthEndpointPath) &&
+                            !context.Request.Path.StartsWithSegments(AlivenessEndpointPath) &&
+                            !context.Request.Path.StartsWithSegments("/scalar");
+                    })
                     .AddGrpcClientInstrumentation()
                     .AddHttpClientInstrumentation();
             });

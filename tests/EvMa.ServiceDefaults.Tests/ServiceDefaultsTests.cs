@@ -46,5 +46,16 @@ namespace EvMa.ServiceDefaults.Tests
             var client = httpClientFactory.CreateClient("test");
             Assert.NotNull(client);
         }
+
+        [Fact]
+        public void ConfigureOpenTelemetry_RegistersLoggingProvider()
+        {
+            var builder = Host.CreateEmptyApplicationBuilder(null);
+            builder.ConfigureOpenTelemetry();
+            var provider = builder.Services.BuildServiceProvider();
+
+            var loggerProvider = provider.GetService<OpenTelemetry.Logs.LoggerProvider>();
+            Assert.NotNull(loggerProvider);
+        }
     }
 }
