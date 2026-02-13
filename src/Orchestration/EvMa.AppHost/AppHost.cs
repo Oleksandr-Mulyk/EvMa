@@ -13,6 +13,4 @@ var cache = builder.AddRedis("cache");
 var messaging = builder.AddRabbitMQ("messaging")
     .WithManagementPlugin();
 
-builder.Services.AddOpenApi();
-
 builder.Build().Run();
