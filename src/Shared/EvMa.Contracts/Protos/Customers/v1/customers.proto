@@ -1,0 +1,28 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "EvMa.Contracts.Customers.V1";
+
+package customers.v1;
+
+service CustomerService {
+  rpc GetCustomerCreditLimit (GetCustomerCreditLimitRequest) returns (CustomerCreditLimitResponse);
+  rpc VerifyOrganizationStatus (VerifyOrganizationStatusRequest) returns (VerifyOrganizationStatusResponse);
+}
+
+message GetCustomerCreditLimitRequest {
+  string organization_id = 1;
+}
+
+message CustomerCreditLimitResponse {
+  double credit_limit = 1;
+  string currency = 2;
+}
+
+message VerifyOrganizationStatusRequest {
+  string organization_id = 1;
+}
+
+message VerifyOrganizationStatusResponse {
+  bool is_active = 1;
+  string status_message = 2;
+}

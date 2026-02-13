@@ -8,5 +8,8 @@
     <Project Path="src/Orchestration/EvMa.AppHost/EvMa.AppHost.csproj" />
     <Project Path="src/Orchestration/EvMa.ServiceDefaults/EvMa.ServiceDefaults.csproj" />
   </Folder>
+  <Folder Name="/src/Shared/">
+    <Project Path="src/Shared/EvMa.Contracts/EvMa.Contracts.csproj" Id="765bbf65-70c2-46b6-bc0e-9bb1522829b0" />
+  </Folder>
   <Folder Name="/tests/" />
 </Solution>

@@ -1,14 +1,16 @@
+using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.ServiceDiscovery;
 using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
 using Scalar.AspNetCore;
+using System.Reflection;
 
 namespace Microsoft.Extensions.Hosting;
 
@@ -139,5 +141,27 @@ public static class Extensions
         }
 
         return app;
+    }
+
+    public static IHostApplicationBuilder AddDefaultMessaging(this IHostApplicationBuilder builder)
+    {
+        builder.Services.AddMassTransit(config =>
+        {
+            config.SetKebabCaseEndpointNameFormatter();
+
+            config.AddConsumers(Assembly.GetEntryAssembly());
+
+            config.UsingRabbitMq((context, cfg) =>
+            {
+                var connectionString = builder.Configuration.GetConnectionString("messaging");
+                cfg.Host(connectionString);
+
+                cfg.ConfigureEndpoints(context);
+
+                cfg.UseMessageRetry(r => r.Incremental(3, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(2)));
+            });
+        });
+
+        return builder;
     }
 }
