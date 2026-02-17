@@ -1,4 +1,5 @@
 using EvMa.ServiceDefaults.Handlers;
+using EvMa.ServiceDefaults.Interceptors;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -50,6 +51,12 @@ namespace EvMa.ServiceDefaults
             // });
 
             builder.AddDefaultExceptionHandler();
+
+            builder.Services.AddGrpc(options =>
+            {
+                // Додаємо наш перехоплювач у пайплайн gRPC
+                options.Interceptors.Add<GrpcExceptionInterceptor>();
+            });
 
             return builder;
         }
